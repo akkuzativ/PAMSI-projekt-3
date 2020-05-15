@@ -4,7 +4,8 @@
 
 class Board
 {
-
+    protected:
+        int squares[8][8];
 };
 
 
