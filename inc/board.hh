@@ -42,6 +42,8 @@ class Field
         Type type;
         Position positionOnBoard;
         std::vector<Move> possibleMoves;
+        std::pair<Type, Type> getEnemy();
+        static std::pair<Type, Type> getEnemy(Type type);
 
     public:
 };
@@ -58,7 +60,7 @@ class Board
         std::vector<Field*> getRedPieces();
         std::vector<Field*> getWhitePieces();
         bool checkRegularMovePotential(Position position);
-        bool checkJumpPotential(Position pieceToJumpOver, Position landingPosition);
+        bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);
 };
 
 
