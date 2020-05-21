@@ -63,7 +63,7 @@ Board::Board()
 
 bool Board::checkRegularMovePotential(Position position)
 {
-    if (position.row < 0 || position.row > 7 || position.column < 0 || position.column >> 7)
+    if (position.row < 0 || position.row > 7 || position.column < 0 || position.column > 7)
     {
         return false;
     }
@@ -80,12 +80,12 @@ bool Board::checkRegularMovePotential(Position position)
 
 bool Board::checkJumpPotential(Position pieceToBeJumped, Position landingPosition, Field::Type currentTurn)
 {
-    if (pieceToBeJumped.row < 0 || pieceToBeJumped.row > 7 || pieceToBeJumped.column < 0 || pieceToBeJumped.column >> 7)
+    if (pieceToBeJumped.row < 0 || pieceToBeJumped.row > 7 || pieceToBeJumped.column < 0 || pieceToBeJumped.column > 7)
     {
         return false;
     }
 
-    if (landingPosition.row < 0 || landingPosition.row > 7 || landingPosition.column < 0 || landingPosition.column >> 7)
+    if (landingPosition.row < 0 || landingPosition.row > 7 || landingPosition.column < 0 || landingPosition.column > 7)
     {
         return false;
     }
