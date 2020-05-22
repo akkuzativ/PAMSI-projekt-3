@@ -8,10 +8,10 @@ std::pair<Field::Type, Field::Type> Field::getEnemy(Type type)
     {
         return {WHITE, WHITEKING};
     }
-    if (type == WHITE || type == WHITEKING)
+    else
     {
         return {RED, REDKING};
-    } 
+    }
 }
 
 

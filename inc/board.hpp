@@ -34,6 +34,7 @@ class Move
         Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
 
         friend class Player;
+        friend class Field;
         friend class HumanPlayer;
         friend class AIPlayer;
         friend class Game;

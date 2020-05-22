@@ -16,17 +16,22 @@ Position HumanPlayer::selectPiece(Board gameboard)
 
 Move HumanPlayer::selectMove(Board gameboard, Position chosenPiece)
 {
-    std::cout << "wybierz ruch: ";
+    std::cout << "wybierz miejsce na ktore chcesz polozyc pionek: ";
+    bool possibleMoveNotSelected = true;
+    Move chosenMove;
     int row, column;
-    for (u_int i = 0; i < gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size(); i++)
+    while(possibleMoveNotSelected)
     {
-        std::cout << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.row << " " << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.column << "\n";
+        std::cin >> row >> column;
+        for (unsigned i = 0; i < gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size(); i++)
+        {
+            if (gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition == Position(row, column))
+            {
+                chosenMove = gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i];
+                possibleMoveNotSelected = false;
+            }
+        }
+        
     }
-    u_int moveNumber;
-    do
-    {
-        std::cin >> moveNumber;
-    } while (moveNumber > gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size() || moveNumber < 0);
-
-    return gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[moveNumber];
+    return chosenMove;
 }

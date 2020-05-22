@@ -17,6 +17,7 @@ int main()
     user1.color = {Field::WHITE, Field::WHITEKING};
     user2.color = {Field::RED, Field::REDKING};
     Game g;
+    g.draw();
     std::cout << "\n==================\n\n";
     do 
     {  
