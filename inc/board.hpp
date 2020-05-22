@@ -27,11 +27,16 @@ class Move
         Position jumpedPiece;
         Position landingPosition;
 
-        friend class Game;
+
     public:
         Move() {};
         Move(Position lP) {jumpedPiece = {-99, -99}; landingPosition = lP;};
         Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
+
+        friend class Player;
+        friend class HumanPlayer;
+        friend class AIPlayer;
+        friend class Game;
 };
 
 
@@ -45,6 +50,9 @@ class Field
         static std::pair<Type, Type> getEnemy(Type type);
         friend class Board;
         friend class Game;
+        friend class Player;
+        friend class HumanPlayer;
+        friend class AIPlayer;
 
 
     private:

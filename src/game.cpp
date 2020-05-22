@@ -46,7 +46,38 @@ void Game::getPossibleMoves(Position piece)
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            // ??? 
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+            }
+            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column-1)))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
+            }
+            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column+1)))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1)));
+            }
+            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column-1)))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1)));
+            }
+            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column+1)))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1)));
+            }
             break;
         default:
             break;
@@ -79,50 +110,46 @@ void Game::lookForAdditionalJumps(Position piece)
                 gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
             }
             break;
-        case Field::REDKING: case Field::WHITEKING:
-            // ??? 
+        case Field::REDKING:case Field::WHITEKING:
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+            }
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece.row,piece.column).type))
+            {
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+            }
             break;
         default:
             break;
     }
 }
 
-
-
-void Game::turn()
+void Game::initializePossibleMovesForPlayersPieces(Player& player)
 {
     for (int i = 0; i < 8 ; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (gameboard(i, j).type == currentTurnPlayer.first || gameboard(i, j).type == currentTurnPlayer.second)
+            if (gameboard(i, j).type == player.color.first || gameboard(i, j).type == player.color.second)
             {
                 getPossibleMoves({i, j});
             }
         }
     }
-    int row, column;
-    do
-    {
-        std::cout << "wybierz pionek: ";
-        std::cin >> row >> column;
-    } while (gameboard(row, column).type != currentTurnPlayer.first || gameboard(row, column).type != currentTurnPlayer.first || row < 0 || row > 7 || column < 0 || column > 7 || gameboard(row, column).possibleMoves.empty());
-    Position chosenPiece(row, column);
-    std::cout << "wybierz ruch: ";
-    for (u_int i = 0; i < gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size(); i++)
-    {
-        std::cout << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.row << " " << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.column << "\n";
-    }
-    u_int moveNumber;
-    do
-    {
-        std::cin >> moveNumber;
-    } while (moveNumber > gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size() || moveNumber < 0);
+}
 
-    Move chosenMove = gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[moveNumber];
-
+void Game::executeSelectedMove(Move chosenMove, Position chosenPiece)
+{
     // jesli to bicie
-
     if (chosenMove.jumpedPiece != Position(-99, -99))
     {
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
@@ -170,18 +197,41 @@ void Game::turn()
             }     
         }
     }
-
-
     // jesli zwykly ruch
     gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
     gameboard(chosenPiece.row, chosenPiece.column).type = Field::FREE;
-    
-
-
-    
-    //nastepuje wybranie pionka
-    currentTurnPlayer = Field::getEnemy(currentTurnPlayer.first);
 }
+
+
+void Game::TurnIntoKings()
+{
+    for (int i = 0; i < 8 ; i++)
+    {
+        if (gameboard(7,i).type == Field::RED)
+        {
+            gameboard(7,i).type = Field::REDKING; 
+        }
+    } 
+    for (int i = 0; i < 8 ; i++)
+    {
+        if (gameboard(0,i).type == Field::WHITE)
+        {
+            gameboard(0,i).type = Field::WHITEKING; 
+        }
+    } 
+}
+
+
+
+void Game::turn(Player& player)
+{
+    initializePossibleMovesForPlayersPieces(player);
+    Position chosenPiece = player.selectPiece(gameboard);
+    Move chosenMove = player.selectMove(gameboard, chosenPiece);
+    executeSelectedMove(chosenMove, chosenPiece);
+    TurnIntoKings();
+}
+
 
 
 void Game::draw()
@@ -208,7 +258,7 @@ void Game::draw()
                 std::cout << "R";
                 break;
             case Field::WHITEKING:
-                std::cout << "R";
+                std::cout << "W";
                 break;
             }
         }

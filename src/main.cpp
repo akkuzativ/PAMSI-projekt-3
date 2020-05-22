@@ -12,11 +12,20 @@
 
 int main()
 {
+    HumanPlayer user1;
+    HumanPlayer user2;
+    user1.color = {Field::WHITE, Field::WHITEKING};
+    user2.color = {Field::RED, Field::REDKING};
     Game g;
+    g.draw(); 
+    std::cout << "\n==================\n\n";
     do 
     {  
-        g.draw();   
-        g.turn();
+          
+        g.turn(user1);
+        g.draw();  
+        g.turn(user2);
+        g.draw(); 
     } while (g.redJumps != 12 || g.redJumps != 12);
             
 

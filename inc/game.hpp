@@ -21,9 +21,14 @@ class Game
     public:
         Game() { currentTurnPlayer = {Field::WHITE, Field::WHITEKING}; tested = false;};
         void getPossibleMoves(Position piece);
+        void initializePossibleMovesForPlayersPieces(Player& player);
         void lookForAdditionalJumps(Position piece);
-        void turn();
+        void TurnIntoKings();
+        void executeSelectedMove(Move move, Position chosenPiece);
+        void turn(Player& player);
         void draw();
+        void customChange(int r, int c, Field::Type t) 
+        { gameboard(r, c).type = t; };
 
 
 
