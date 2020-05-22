@@ -6,6 +6,7 @@
 
 void Game::getPossibleMoves(Position piece)
 {
+    gameboard(piece.row, piece.column).possibleMoves.clear();
     switch(gameboard(piece.row,piece.column).type)
     {
         case Field::RED:
@@ -55,6 +56,7 @@ void Game::getPossibleMoves(Position piece)
 
 void Game::lookForAdditionalJumps(Position piece)
 {
+    gameboard(piece.row, piece.column).possibleMoves.clear();
     switch(gameboard(piece.row,piece.column).type)
     {
         case Field::RED:
@@ -89,6 +91,14 @@ void Game::lookForAdditionalJumps(Position piece)
 
 void Game::turn()
 {
+    if (!tested)
+    {
+        gameboard(4, 1).type = Field::RED;
+        gameboard(1, 4).type = Field::FREE;
+        
+    }
+    tested = true;
+    draw();
     for (int i = 0; i < 8 ; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -125,6 +135,26 @@ void Game::turn()
     {
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
         gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
+        Position positionAfterJump(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
+        do
+        {
+            lookForAdditionalJumps(positionAfterJump);
+            std::cout << "wybierz ruch: ";
+            for (u_int i = 0; i < gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.size(); i++)
+            {
+                std::cout << gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[i].landingPosition.row << " " << gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[i].landingPosition.column << "\n";
+            }
+            u_int moveNumber;
+            do
+            {
+                std::cin >> moveNumber;
+            } while ( (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty() && moveNumber > gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.size() ) || moveNumber < 0);
+            chosenMove = gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[moveNumber];
+            gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(positionAfterJump.row, positionAfterJump.column).type;
+            gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
+            gameboard(positionAfterJump.row, positionAfterJump.column).type = Field::FREE;
+            positionAfterJump = Position(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
+        } while ( !gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty());
     }
 
 

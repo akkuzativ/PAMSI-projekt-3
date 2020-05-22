@@ -13,11 +13,10 @@
 int main()
 {
     Game g;
-    g.draw();
     do 
-    {     
+    {  
+        //g.draw();   
         g.turn();
-        g.draw();
     } while (g.redJumps != 12 || g.redJumps != 12);
             
 
