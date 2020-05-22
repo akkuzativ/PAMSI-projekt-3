@@ -77,7 +77,7 @@ bool Board::checkJumpPotential(Position pieceToBeJumped, Position landingPositio
         return false;
     }
     
-    if (_board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).first || _board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).second)
+    if (_board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).first && _board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).second)
     {
         return false;
     }

@@ -124,8 +124,7 @@ void Game::turn()
     if (chosenMove.jumpedPiece != Position(-99, -99))
     {
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
-        gameboard(chosenPiece.row, chosenPiece.column).type = Field::FREE;
-        gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;        
+        gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
     }
 
 
