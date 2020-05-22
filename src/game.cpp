@@ -147,7 +147,7 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
     }
 }
 
-void Game::executeSelectedMove(Move chosenMove, Position chosenPiece)
+void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player)
 {
     // jesli to bicie
     if (chosenMove.jumpedPiece != Position(-99, -99))
@@ -155,7 +155,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece)
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
         gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
         Position positionAfterJump(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-        switch (currentTurnPlayer.first)
+        switch (player.color.first)
             {
                 case Field::RED: case Field::REDKING:
                     redJumps++;
@@ -184,7 +184,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece)
             gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
             gameboard(positionAfterJump.row, positionAfterJump.column).type = Field::FREE;
             positionAfterJump = Position(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-            switch (currentTurnPlayer.first)
+            switch (player.color.first)
             {
                 case Field::RED: case Field::REDKING:
                     redJumps++;
@@ -228,7 +228,7 @@ void Game::turn(Player& player)
     initializePossibleMovesForPlayersPieces(player);
     Position chosenPiece = player.selectPiece(gameboard);
     Move chosenMove = player.selectMove(gameboard, chosenPiece);
-    executeSelectedMove(chosenMove, chosenPiece);
+    executeSelectedMove(chosenMove, chosenPiece, player);
     TurnIntoKings();
 }
 

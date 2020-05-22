@@ -17,6 +17,7 @@ Position HumanPlayer::selectPiece(Board gameboard)
 Move HumanPlayer::selectMove(Board gameboard, Position chosenPiece)
 {
     std::cout << "wybierz ruch: ";
+    int row, column;
     for (u_int i = 0; i < gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size(); i++)
     {
         std::cout << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.row << " " << gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[i].landingPosition.column << "\n";
