@@ -1,4 +1,5 @@
 #include "../inc/board.hpp"
+#include <iostream>
 
 
 
@@ -50,6 +51,7 @@ Board::Board()
 
 bool Board::checkRegularMovePotential(Position position)
 {
+    
     if (position.row < 0 || position.row > 7 || position.column < 0 || position.column > 7)
     {
         return false;
@@ -58,7 +60,6 @@ bool Board::checkRegularMovePotential(Position position)
     {
         return false;
     }
-
 
     return true;
 }

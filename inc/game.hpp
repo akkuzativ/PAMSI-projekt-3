@@ -8,19 +8,22 @@
 
 class Game
 {
-    private:
+    //private:
+    public:
         Board gameboard;
+        Field::Type currentTurn;
+        int redJumps;
+        int whiteJumps;
         //std::vector<Position> redPieces;
         //std::vector<Position> whitePieces;
     public:
         void getPossibleMoves(Position piece);
         void lookForAdditionalJumps(Position piece);
-        void removeJumpedPieces(std::vector<Position> jumpedPiecesInCurrentTurn);
         void turn();
+        void draw();
 
 
 
-    friend class GameRenderer;
 };
 
 
