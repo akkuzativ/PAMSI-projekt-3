@@ -15,26 +15,31 @@ class Position
         Position() {};
         Position(int r, int c) {row = r; column = c;};
         ~Position() {};
-};
-
-class Jump
-{
-    private:
-        std::vector<Position> jumpedPieces;
-
         
-    public:
 };
+
 
 class Move
 {
-    private:
-        std::vector<Jump> executedJumps;
-        Position finalDestination;
+    protected:
+        Position landingPosition;
 
-
+        friend class Game;
     public:
+        Move() {};
+        Move(Position lP) {landingPosition = lP;};
 };
+
+
+class Jump: public Move
+{
+    private:
+        Position jumpedPiece;
+    public:
+        Jump() {};
+        Jump(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
+};
+
 
 
 class Field
@@ -43,6 +48,7 @@ class Field
         enum Type {INVALID, FREE, RED, WHITE, REDKING, WHITEKING};
         static std::pair<Type, Type> getEnemy(Type type);
         friend class Board;
+        friend class Game;
 
 
     private:
@@ -65,6 +71,7 @@ class Board
         ~Board() {};
         std::vector<Field*> getRedPieces();
         std::vector<Field*> getWhitePieces();
+        Field& operator()(int i, int j) {return _board[i][j];};
         bool checkRegularMovePotential(Position position);
         bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);
 };

@@ -90,29 +90,3 @@ bool Board::checkJumpPotential(Position pieceToBeJumped, Position landingPositio
     
     return true;
 }
-
-
-
-// do przeniesienia do klasy Game (narazie nie istnieje)
-
-void getPossibleMoves(Position piece)
-{
-    switch(board[piece.row][piece.column].type)
-    {
-        case Field::RED:
-            //check jump potential (r-1, c+1, r-2, c+2)
-            //check jump potential (r-1, c-1, r-2, c-2)
-            //check regular move potential (r-1, c-1)
-            //check regular move potential (r-1, c+1) 
-            break;
-        case Field::WHITE:
-            //check jump potential (r+1, c+1, r+2, c+2)
-            //check jump potential (r+1, c-1, r+2, c-2)
-            //check regular move potential (r-1, c-1)
-            //check regular move potential (r-1, c+1) 
-            break;
-        case Field::REDKING: case Field::WHITEKING:
-            // ??? 
-            break;
-    }
-}
