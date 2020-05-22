@@ -1,4 +1,4 @@
-#include "../inc/board.hh"
+#include "../inc/board.hpp"
 
 
 

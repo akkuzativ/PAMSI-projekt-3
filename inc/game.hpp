@@ -2,7 +2,7 @@
 #define GAME_HPP
 
 
-#include "board.hh"
+#include "board.hpp"
 
 
 
@@ -17,6 +17,10 @@ class Game
         void lookForAdditionalJumps(Position piece);
         void removeJumpedPieces(std::vector<Position> jumpedPiecesInCurrentTurn);
         void turn();
+
+
+
+    friend class GameRenderer;
 };
 
 

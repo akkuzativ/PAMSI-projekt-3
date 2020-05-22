@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../inc/game.hh"
+#include "../inc/game.hpp"
 
 
 
@@ -113,8 +113,14 @@ void Game::turn()
     {
         std::cin >> moveNumber;
     } while (moveNumber > gameboard(chosenPiece.row, chosenPiece.column).possibleMoves.size() || moveNumber < 0);
+
     Move chosenMove = gameboard(chosenPiece.row, chosenPiece.column).possibleMoves[moveNumber];
 
+    // jesli to bicie
+
+
+
+    // jesli zwykly ruch
     gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
     gameboard(chosenPiece.row, chosenPiece.column).type = Field::FREE;
     
