@@ -21,7 +21,7 @@ class Game
         void getPossibleMoves(Position piece);
         void initializePossibleMovesForPlayersPieces(Player& player);
         void lookForAdditionalJumps(Position piece);
-        void TurnIntoKings();
+        void turnIntoKings();
         void executeSelectedMove(Move move, Position chosenPiece, Player& player);
         void turn(Player& player);
         void draw();

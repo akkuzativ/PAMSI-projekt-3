@@ -203,7 +203,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
 }
 
 
-void Game::TurnIntoKings()
+void Game::turnIntoKings()
 {
     for (int i = 0; i < 8 ; i++)
     {
@@ -229,7 +229,7 @@ void Game::turn(Player& player)
     Position chosenPiece = player.selectPiece(gameboard);
     Move chosenMove = player.selectMove(gameboard, chosenPiece);
     executeSelectedMove(chosenMove, chosenPiece, player);
-    TurnIntoKings();
+    turnIntoKings();
 }
 
 
