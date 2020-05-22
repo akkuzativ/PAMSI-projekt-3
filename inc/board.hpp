@@ -15,6 +15,8 @@ class Position
         Position() {};
         Position(int r, int c) {row = r; column = c;};
         ~Position() {};
+        bool operator ==(Position p) {if (row == p.row && column == p.column) return true; else return false;};
+        bool operator !=(Position p) {if (row != p.row || column != p.column) return true; else return false;};
         
 };
 
@@ -22,23 +24,17 @@ class Position
 class Move
 {
     protected:
+        Position jumpedPiece;
         Position landingPosition;
 
         friend class Game;
     public:
         Move() {};
-        Move(Position lP) {landingPosition = lP;};
+        Move(Position lP) {jumpedPiece = {-99, -99}; landingPosition = lP;};
+        Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
 };
 
 
-class Jump: public Move
-{
-    private:
-        Position jumpedPiece;
-    public:
-        Jump() {};
-        Jump(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
-};
 
 
 

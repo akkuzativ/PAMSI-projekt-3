@@ -1,7 +1,6 @@
 #include "../inc/board.hpp"
+
 #include <iostream>
-
-
 
 std::pair<Field::Type, Field::Type> Field::getEnemy(Type type)
 {
@@ -51,7 +50,6 @@ Board::Board()
 
 bool Board::checkRegularMovePotential(Position position)
 {
-    
     if (position.row < 0 || position.row > 7 || position.column < 0 || position.column > 7)
     {
         return false;
@@ -60,6 +58,7 @@ bool Board::checkRegularMovePotential(Position position)
     {
         return false;
     }
+
 
     return true;
 }
@@ -77,7 +76,7 @@ bool Board::checkJumpPotential(Position pieceToBeJumped, Position landingPositio
     {
         return false;
     }
-
+    
     if (_board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).first || _board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).second)
     {
         return false;
