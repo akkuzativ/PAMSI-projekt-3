@@ -91,14 +91,6 @@ void Game::lookForAdditionalJumps(Position piece)
 
 void Game::turn()
 {
-    if (!tested)
-    {
-        gameboard(4, 1).type = Field::RED;
-        gameboard(1, 4).type = Field::FREE;
-        
-    }
-    tested = true;
-    draw();
     for (int i = 0; i < 8 ; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -136,9 +128,20 @@ void Game::turn()
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
         gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
         Position positionAfterJump(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-        do
+        switch (currentTurnPlayer.first)
+            {
+                case Field::RED: case Field::REDKING:
+                    redJumps++;
+                    break;
+                case Field::WHITE: case Field::WHITEKING:
+                    whiteJumps++;
+                    break;
+                default:
+                    break;
+            }
+        lookForAdditionalJumps(positionAfterJump);
+        while (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty())
         {
-            lookForAdditionalJumps(positionAfterJump);
             std::cout << "wybierz ruch: ";
             for (u_int i = 0; i < gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.size(); i++)
             {
@@ -154,7 +157,18 @@ void Game::turn()
             gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
             gameboard(positionAfterJump.row, positionAfterJump.column).type = Field::FREE;
             positionAfterJump = Position(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-        } while ( !gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty());
+            switch (currentTurnPlayer.first)
+            {
+                case Field::RED: case Field::REDKING:
+                    redJumps++;
+                    break;
+                case Field::WHITE: case Field::WHITEKING:
+                    whiteJumps++;
+                    break;
+                default:
+                    break;
+            }     
+        }
     }
 
 
