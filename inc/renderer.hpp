@@ -16,7 +16,7 @@ class Renderer
         sf::Sprite fieldSprites[6];
 
     public:
-        bool loadTextures(std::string resourcesFolder);
+        bool loadTextures();
         bool drawBoard(Board gameboard, sf::RenderWindow& window);
         bool highlightChosenPosition(Position chosenPosition);
 };
