@@ -20,7 +20,7 @@ int main()
     user2.color = {Field::RED, Field::REDKING};
     Game g;
     g.draw();
-    sf::RenderWindow w(sf::VideoMode(256, 256), "projekt-3");
+    sf::RenderWindow w(sf::VideoMode(256, 256), "projekt-3", sf::Style::Titlebar | sf::Style::Close);
     w.setFramerateLimit(30);
     if (r.loadTextures() == false)
     {

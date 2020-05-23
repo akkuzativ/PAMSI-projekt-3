@@ -21,7 +21,7 @@ class Game
 
     public:
         Game() {redJumps = 0; whiteJumps = 0;};
-        void findRegularMoves(Position piece);
+        void findAllMoves(Position piece);
         void initializePossibleMovesForPlayersPieces(Player& player);
         void findJumps(Position piece);
         void turnIntoKings();

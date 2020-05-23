@@ -53,20 +53,13 @@ void Game::findJumps(Position piece)
 }
 
 
-void Game::findRegularMoves(Position piece)
+void Game::findAllMoves(Position piece)
 {
     gameboard(piece).possibleMoves.clear();
+    findJumps(piece);
     switch(gameboard(piece).type)
     {
         case Field::RED:
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), Field::RED))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
-            }
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), Field::RED))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
-            }
             if (gameboard.checkRegularMovePotential(piece.returnModified(+1,+1)))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,+1)));
@@ -77,14 +70,6 @@ void Game::findRegularMoves(Position piece)
             }
             break;
         case Field::WHITE:
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), Field::WHITE))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
-            }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), Field::WHITE))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
-            }
             if (gameboard.checkRegularMovePotential(piece.returnModified(-1,+1)))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,+1)));
@@ -95,22 +80,6 @@ void Game::findRegularMoves(Position piece)
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece).type))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
-            }
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece).type))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
-            }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece).type))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
-            }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece).type))
-            {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
-            }
             if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column-1)))
             {
                 gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
@@ -143,7 +112,7 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
         {
             if (gameboard(i, j).type == player.color.first || gameboard(i, j).type == player.color.second)
             {
-                findRegularMoves({i, j});
+                findAllMoves({i, j});
             }
         }
     }
