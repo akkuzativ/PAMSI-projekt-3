@@ -41,7 +41,6 @@ Board::Board()
                     _board[i][j].type = Field::FREE;
                 }
             }
-            _board[i][j].positionOnBoard = {i, j};
         }
     }
 }
