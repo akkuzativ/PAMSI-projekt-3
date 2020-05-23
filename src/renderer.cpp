@@ -3,27 +3,27 @@
 
 bool Renderer::loadTextures()
 {
-    if (!fieldTextures[0].loadFromFile("resources/invalid.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[0].loadFromFile("resources/invalid.bmp"))
     {
         return false;
     }
-    if (fieldTextures[1].loadFromFile("resources/free.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[1].loadFromFile("resources/free.bmp"))
     {
         return false;
     }
-    if (fieldTextures[2].loadFromFile("resources/red.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[2].loadFromFile("resources/red.bmp"))
     {
         return false;
     }
-    if (fieldTextures[3].loadFromFile("resources/white.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[3].loadFromFile("resources/white.bmp"))
     {
         return false;
     }
-    if (fieldTextures[4].loadFromFile("resources/redking.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[4].loadFromFile("resources/redking.bmp"))
     {
         return false;
     }
-    if (fieldTextures[5].loadFromFile("resources/whiteking.bmp", sf::IntRect(0, 0, 32, 32)))
+    if (!fieldTextures[5].loadFromFile("resources/whiteking.bmp"))
     {
         return false;
     }
@@ -51,27 +51,27 @@ bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
             switch (gameboard(i, j).type)
             {
             case Field::INVALID:
-                fieldSprites[0].setPosition(32*i, 32*j);
+                fieldSprites[0].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[0]);
                 break;
             case Field::FREE:
-                fieldSprites[0].setPosition(32*i, 32*j);
+                fieldSprites[1].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[1]);
                 break;
             case Field::RED:
-                fieldSprites[0].setPosition(32*i, 32*j);
+                fieldSprites[2].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[2]);
                 break;
             case Field::WHITE:
-              fieldSprites[0].setPosition(32*i, 32*j);
+              fieldSprites[3].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[3]);
                 break;    
             case Field::REDKING:
-                fieldSprites[0].setPosition(32*i, 32*j);
+                fieldSprites[4].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[4]);
                 break;
             case Field::WHITEKING:
-                fieldSprites[0].setPosition(32*i, 32*j);
+                fieldSprites[5].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[5]);
                 break;
             }

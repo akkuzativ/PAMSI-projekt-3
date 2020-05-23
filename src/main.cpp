@@ -28,13 +28,15 @@ int main()
     }
     r.drawBoard(g.gameboard, w);
     w.display();
-    std::cout << "\n==================\n\n";
+    sf::Event event;
     do 
     {  
+        w.pollEvent(event);
         if (g.redJumps != 12 && g.whiteJumps != 12)
         {
             g.turn(user1);
             g.draw();
+            w.clear();
             r.drawBoard(g.gameboard, w);
             w.display();
         }
@@ -42,17 +44,18 @@ int main()
         {
             g.turn(user2);
             g.draw();
+            w.clear();
             r.drawBoard(g.gameboard, w);
             w.display();
         }
     } while (g.redJumps != 12 && g.whiteJumps != 12);
     if (g.redJumps == 12)
     {
-        std::cout << "red wins" << std::endl;
+        std::cout << "Czerwony wygrywa" << std::endl;
     }
     else
     {
-        std::cout << "white wins" << std::endl;
+        std::cout << "Bialy wygrywa" << std::endl;
     }
             
 
