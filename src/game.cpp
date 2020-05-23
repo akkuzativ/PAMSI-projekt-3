@@ -233,6 +233,14 @@ void Game::turn(Player& player)
     turnIntoKings();
 }
 
+void Game::turn(Player& player, sf::RenderWindow& w)
+{
+    initializePossibleMovesForPlayersPieces(player);
+    Position chosenPiece = player.selectPiece(gameboard, w);
+    Move chosenMove = player.selectMove(gameboard, chosenPiece, w);
+    executeSelectedMove(chosenMove, chosenPiece, player);
+    turnIntoKings();
+}
 
 
 void Game::draw()

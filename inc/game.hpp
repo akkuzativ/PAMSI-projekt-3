@@ -1,6 +1,10 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+
 
 #include "board.hpp"
 #include "player.hpp"
@@ -23,6 +27,7 @@ class Game
         void turnIntoKings();
         void executeSelectedMove(Move move, Position chosenPiece, Player& player);
         void turn(Player& player);
+        void turn(Player& player, sf::RenderWindow& w);
         void draw();
         void customChange(int r, int c, Field::Type t) 
         { gameboard(r, c).type = t; };

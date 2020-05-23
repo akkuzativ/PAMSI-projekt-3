@@ -77,10 +77,11 @@ bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
             }
         }
     }
+    return true;
 }
 
 
 bool highlightChosenPosition(Position chosenPosition)
 {
-
+    return false;
 }

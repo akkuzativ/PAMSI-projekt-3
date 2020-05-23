@@ -34,7 +34,7 @@ int main()
         w.pollEvent(event);
         if (g.redJumps != 12 && g.whiteJumps != 12)
         {
-            g.turn(user1);
+            g.turn(user1, w);
             g.draw();
             w.clear();
             r.drawBoard(g.gameboard, w);
@@ -42,7 +42,7 @@ int main()
         }
         if (g.redJumps != 12 && g.whiteJumps != 12)
         {
-            g.turn(user2);
+            g.turn(user2, w);
             g.draw();
             w.clear();
             r.drawBoard(g.gameboard, w);
