@@ -118,14 +118,14 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
     }
 }
 
-void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player)
+void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player, sf::RenderWindow& w)
 {
     // jesli to bicie
     if (chosenMove.jumpedPiece != Position(-99, -99))
     {
-        gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
-        gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
-        Position positionAfterJump(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
+        gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
+        gameboard(chosenMove.jumpedPiece).type = Field::FREE;
+        Position landingPosition(chosenMove.landingPosition);
         if (player.color.first == Field::RED || player.color.first == Field::REDKING)
         {
             redJumps++;
@@ -134,24 +134,18 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
         {
             whiteJumps++;
         }
-        findJumps(positionAfterJump);
-        while (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty())
+        findJumps(landingPosition);
+        while (!gameboard(landingPosition).possibleMoves.empty())
         {
             std::cout << "wybierz ruch: ";
-            for (u_int i = 0; i < gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.size(); i++)
+            for (u_int i = 0; i < gameboard(landingPosition).possibleMoves.size(); i++)
             {
-                std::cout << gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[i].landingPosition.row << " " << gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[i].landingPosition.column << "\n";
+                std::cout << gameboard(landingPosition).possibleMoves[i].landingPosition.row << " " << gameboard(landingPosition).possibleMoves[i].landingPosition.column << "\n";
             }
-            u_int moveNumber;
-            do
-            {
-                std::cin >> moveNumber;
-            } while ( (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty() && moveNumber > gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.size() ) || moveNumber < 0);
-            chosenMove = gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves[moveNumber];
-            gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(positionAfterJump.row, positionAfterJump.column).type;
-            gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
-            gameboard(positionAfterJump.row, positionAfterJump.column).type = Field::FREE;
-            positionAfterJump = Position(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
+            chosenMove = player.selectMove(gameboard, landingPosition, w);
+            gameboard(chosenMove.landingPosition).type = gameboard(landingPosition).type;
+            gameboard(chosenMove.jumpedPiece).type = Field::FREE;
+            landingPosition = Position(chosenMove.landingPosition);
             if (player.color.first == Field::RED || player.color.first == Field::REDKING)
             {
                 redJumps++;
@@ -160,6 +154,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
             {
                 whiteJumps++;
             }
+            findJumps(landingPosition);
         }
     }
     // jesli zwykly ruch
@@ -190,10 +185,11 @@ void Game::turnIntoKings()
 
 void Game::turn(Player& player)
 {
+    sf::RenderWindow dummy;
     initializePossibleMovesForPlayersPieces(player);
     Position chosenPiece = player.selectPiece(gameboard);
     Move chosenMove = player.selectMove(gameboard, chosenPiece);
-    executeSelectedMove(chosenMove, chosenPiece, player);
+    executeSelectedMove(chosenMove, chosenPiece, player, dummy);
     turnIntoKings();
 }
 
@@ -202,7 +198,7 @@ void Game::turn(Player& player, sf::RenderWindow& w)
     initializePossibleMovesForPlayersPieces(player);
     Position chosenPiece = player.selectPiece(gameboard, w);
     Move chosenMove = player.selectMove(gameboard, chosenPiece, w);
-    executeSelectedMove(chosenMove, chosenPiece, player);
+    executeSelectedMove(chosenMove, chosenPiece, player, w);
     turnIntoKings();
 }
 

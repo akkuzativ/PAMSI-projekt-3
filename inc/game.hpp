@@ -25,7 +25,7 @@ class Game
         void initializePossibleMovesForPlayersPieces(Player& player);
         void findJumps(Position piece);
         void turnIntoKings();
-        void executeSelectedMove(Move move, Position chosenPiece, Player& player);
+        void executeSelectedMove(Move move, Position chosenPiece, Player& player, sf::RenderWindow& w);
         void turn(Player& player);
         void turn(Player& player, sf::RenderWindow& w);
         void draw();
