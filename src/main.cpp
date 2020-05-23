@@ -34,6 +34,7 @@ int main()
         w.pollEvent(event);
         if (g.redJumps != 12 && g.whiteJumps != 12)
         {
+            std::cout << "Tura bialego" << std::endl;
             g.turn(user1, w);
             g.draw();
             w.clear();
@@ -42,6 +43,7 @@ int main()
         }
         if (g.redJumps != 12 && g.whiteJumps != 12)
         {
+            std::cout << "Tura czerwonego" << std::endl;
             g.turn(user2, w);
             g.draw();
             w.clear();
