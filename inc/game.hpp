@@ -15,8 +15,7 @@ class Game
         int redJumps;
         int whiteJumps;
         bool tested;
-        //std::vector<Position> redPieces;
-        //std::vector<Position> whitePieces;
+
     public:
         void getPossibleMoves(Position piece);
         void initializePossibleMovesForPlayersPieces(Player& player);
@@ -25,6 +24,8 @@ class Game
         void executeSelectedMove(Move move, Position chosenPiece, Player& player);
         void turn(Player& player);
         void draw();
+        void drawGUI();
+        void loadTextures();
         void customChange(int r, int c, Field::Type t) 
         { gameboard(r, c).type = t; };
 
