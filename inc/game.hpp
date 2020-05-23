@@ -24,8 +24,6 @@ class Game
         void executeSelectedMove(Move move, Position chosenPiece, Player& player);
         void turn(Player& player);
         void draw();
-        void drawGUI();
-        void loadTextures();
         void customChange(int r, int c, Field::Type t) 
         { gameboard(r, c).type = t; };
 

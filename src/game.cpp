@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
+
 
 #include "../inc/game.hpp"
 
@@ -265,9 +265,4 @@ void Game::draw()
         }
         std::cout << "\n";
     }
-}
-
-void Game::loadTextures()
-{
-    
 }
