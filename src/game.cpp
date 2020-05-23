@@ -137,11 +137,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
         findJumps(landingPosition);
         while (!gameboard(landingPosition).possibleMoves.empty())
         {
-            std::cout << "wybierz ruch: ";
-            for (u_int i = 0; i < gameboard(landingPosition).possibleMoves.size(); i++)
-            {
-                std::cout << gameboard(landingPosition).possibleMoves[i].landingPosition.row << " " << gameboard(landingPosition).possibleMoves[i].landingPosition.column << "\n";
-            }
+            std::cout << "sa dodatkowe bicia";
             chosenMove = player.selectMove(gameboard, landingPosition, w);
             gameboard(chosenMove.landingPosition).type = gameboard(landingPosition).type;
             gameboard(chosenMove.jumpedPiece).type = Field::FREE;
