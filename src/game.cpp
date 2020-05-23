@@ -6,45 +6,45 @@
 
 void Game::lookForAdditionalJumps(Position piece)
 {
-    gameboard(piece.row, piece.column).possibleMoves.clear();
-    switch(gameboard(piece.row,piece.column).type)
+    gameboard(piece).possibleMoves.clear();
+    switch(gameboard(piece).type)
     {
         case Field::RED:
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), Field::RED))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), Field::RED))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, -1), piece.returnModified(+2, -2)));
             }
             break;
         case Field::WHITE:
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), Field::WHITE))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), Field::WHITE))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, -1), piece.returnModified(+2, -2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
             }
             break;
         default:
@@ -55,77 +55,77 @@ void Game::lookForAdditionalJumps(Position piece)
 
 void Game::getPossibleMoves(Position piece)
 {
-    gameboard(piece.row, piece.column).possibleMoves.clear();
-    switch(gameboard(piece.row,piece.column).type)
+    gameboard(piece).possibleMoves.clear();
+    switch(gameboard(piece).type)
     {
         case Field::RED:
             if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
             }
             if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), Field::RED))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column-1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(+1,+1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,+1)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column+1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(+1,-1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,-1)));
             }
             break;
         case Field::WHITE:
             if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
             }
             if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), Field::WHITE))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column-1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(-1,+1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,+1)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column+1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(-1,-1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,-1)));
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2), gameboard(piece).type))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column+2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece).type))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece).type))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2)));
             }
-            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece.row,piece.column).type))
+            if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2), gameboard(piece).type))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1), Position(piece.row-2, piece.column-2)));
             }
             if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column-1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
             }
             if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column+1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1)));
             }
             if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column-1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1)));
             }
             if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column+1)))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1)));
             }
             break;
         default:
