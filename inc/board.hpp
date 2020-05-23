@@ -81,6 +81,7 @@ class Board
         bool checkRegularMovePotential(Position position);
         bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);
 
+     friend class Renderer;
         
 };
 

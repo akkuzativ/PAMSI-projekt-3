@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <string>
 
 #include "game.hpp"
@@ -11,11 +12,12 @@
 class Renderer
 {
     private:
-        sf::Texture fieldSprites[6];
+        sf::Texture fieldTextures[6];
+        sf::Sprite fieldSprites[6];
 
     public:
         bool loadTextures(std::string resourcesFolder);
-        bool drawBoard(Board gameboard, sf::Window& window);
+        bool drawBoard(Board gameboard, sf::RenderWindow& window);
         bool highlightChosenPosition(Position chosenPosition);
 };
 

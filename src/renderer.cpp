@@ -3,39 +3,76 @@
 
 bool Renderer::loadTextures(std::string resourcesFolder)
 {
-    if (!fieldSprites[0].loadFromFile(resourcesFolder + "invalid.bmp"))
+    if (!fieldTextures[0].loadFromFile(resourcesFolder + "invalid.bmp"))
     {
         return false;
     }
-    if (fieldSprites[1].loadFromFile(resourcesFolder + "free.bmp"))
+    if (fieldTextures[1].loadFromFile(resourcesFolder + "free.bmp"))
     {
         return false;
     }
-    if (fieldSprites[2].loadFromFile(resourcesFolder + "red.bmp"))
+    if (fieldTextures[2].loadFromFile(resourcesFolder + "red.bmp"))
     {
         return false;
     }
-    if (fieldSprites[3].loadFromFile(resourcesFolder + "white.bmp"))
+    if (fieldTextures[3].loadFromFile(resourcesFolder + "white.bmp"))
     {
         return false;
     }
-    if (fieldSprites[4].loadFromFile(resourcesFolder + "redking.bmp"))
+    if (fieldTextures[4].loadFromFile(resourcesFolder + "redking.bmp"))
     {
         return false;
     }
-    if (fieldSprites[5].loadFromFile(resourcesFolder + "whiteking.bmp"))
+    if (fieldTextures[5].loadFromFile(resourcesFolder + "whiteking.bmp"))
     {
         return false;
     }
+
+
+
+    for (int i = 0; i < 6; i++)
+    {
+        fieldSprites[i].setTexture(fieldTextures[i]);
+    }
+
+
 
     return true;
 }
 
 
-bool drawBoard(Board gameboard, sf::Window& window)
-{
+bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
 
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            switch (gameboard(i, j).type)
+            {
+            case Field::INVALID:
+                window.draw(fieldSprites[0]);
+                break;
+            case Field::FREE:
+                window.draw(fieldSprites[1]);
+                break;
+            case Field::RED:
+                window.draw(fieldSprites[2]);
+                break;
+            case Field::WHITE:
+                window.draw(fieldSprites[3]);
+                break;    
+            case Field::REDKING:
+                window.draw(fieldSprites[4]);
+                break;
+            case Field::WHITEKING:
+                window.draw(fieldSprites[5]);
+                break;
+            }
+        }
+    }
 }
+
 
 bool highlightChosenPosition(Position chosenPosition)
 {
