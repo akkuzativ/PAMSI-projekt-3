@@ -18,12 +18,12 @@ class Game
         Board gameboard;
         int redJumps;
         int whiteJumps;
-        bool tested;
 
     public:
-        void getPossibleMoves(Position piece);
+        Game() {redJumps = 0; whiteJumps = 0;};
+        void findRegularMoves(Position piece);
         void initializePossibleMovesForPlayersPieces(Player& player);
-        void lookForAdditionalJumps(Position piece);
+        void findJumps(Position piece);
         void turnIntoKings();
         void executeSelectedMove(Move move, Position chosenPiece, Player& player);
         void turn(Player& player);

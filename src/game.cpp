@@ -4,7 +4,7 @@
 #include "../inc/game.hpp"
 
 
-void Game::lookForAdditionalJumps(Position piece)
+void Game::findJumps(Position piece)
 {
     gameboard(piece).possibleMoves.clear();
     switch(gameboard(piece).type)
@@ -53,7 +53,7 @@ void Game::lookForAdditionalJumps(Position piece)
 }
 
 
-void Game::getPossibleMoves(Position piece)
+void Game::findRegularMoves(Position piece)
 {
     gameboard(piece).possibleMoves.clear();
     switch(gameboard(piece).type)
@@ -143,7 +143,7 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
         {
             if (gameboard(i, j).type == player.color.first || gameboard(i, j).type == player.color.second)
             {
-                getPossibleMoves({i, j});
+                findRegularMoves({i, j});
             }
         }
     }
@@ -168,7 +168,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
                 default:
                     break;
             }
-        lookForAdditionalJumps(positionAfterJump);
+        findJumps(positionAfterJump);
         while (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty())
         {
             std::cout << "wybierz ruch: ";
@@ -197,7 +197,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
                 default:
                     break;
             }
-            lookForAdditionalJumps(positionAfterJump);    
+            findJumps(positionAfterJump);    
         }
     }
     // jesli zwykly ruch
