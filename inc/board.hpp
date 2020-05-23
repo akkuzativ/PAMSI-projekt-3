@@ -54,6 +54,7 @@ class Field
         friend class Player;
         friend class HumanPlayer;
         friend class AIPlayer;
+        friend class Renderer;
 
 
     private:
@@ -79,6 +80,8 @@ class Board
         Field& operator()(int i, int j) {return _board[i][j];};
         bool checkRegularMovePotential(Position position);
         bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);
+
+        
 };
 
 

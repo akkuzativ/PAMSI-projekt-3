@@ -28,7 +28,7 @@ class Game
         { gameboard(r, c).type = t; };
 
 
-
+        friend class Renderer;
 };
 
 
