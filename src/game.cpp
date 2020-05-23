@@ -53,7 +53,7 @@ void Game::getPossibleMoves(Position piece)
             }
             if (gameboard.checkJumpPotential(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2), gameboard(piece.row,piece.column).type))
             {
-                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1), Position(piece.row+2, piece.column-2)));
+                gameboard(piece.row, piece.column).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1), Position(piece.row+2, piece.column-2)));
             }
             if (gameboard.checkJumpPotential(Position(piece.row-1, piece.column+1), Position(piece.row-2, piece.column+2), gameboard(piece.row,piece.column).type))
             {
