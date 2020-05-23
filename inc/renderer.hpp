@@ -15,7 +15,7 @@ class Renderer
 
     public:
         bool loadTextures(std::string resourcesFolder);
-        bool boardToImage(Board gameboard);
+        bool drawBoard(Board gameboard, sf::Window& window);
         bool highlightChosenPosition(Position chosenPosition);
 };
 
