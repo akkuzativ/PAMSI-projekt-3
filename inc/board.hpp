@@ -15,6 +15,7 @@ class Position
         Position() {};
         Position(int r, int c) {row = r; column = c;};
         ~Position() {};
+        Position returnModified(int drow, int dcolumn) {return Position(row+drow, column+dcolumn);};
         bool operator ==(Position p) {if (row == p.row && column == p.column) return true; else return false;};
         bool operator !=(Position p) {if (row != p.row || column != p.column) return true; else return false;};
         
@@ -68,8 +69,6 @@ class Board
 {
     private:
         Field _board[8][8];
-        std::vector<Field*> redPieces;
-        std::vector<Field*> whitePieces;
 
 
     public:
@@ -78,8 +77,10 @@ class Board
         std::vector<Field*> getRedPieces();
         std::vector<Field*> getWhitePieces();
         Field& operator()(int i, int j) {return _board[i][j];};
+        Field& operator()(Position p) {return _board[p.row][p.column];};
         bool checkRegularMovePotential(Position position);
         bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);
+
 
      friend class Renderer;
         
