@@ -126,17 +126,14 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
         gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
         gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
         Position positionAfterJump(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-        switch (player.color.first)
-            {
-                case Field::RED: case Field::REDKING:
-                    redJumps++;
-                    break;
-                case Field::WHITE: case Field::WHITEKING:
-                    whiteJumps++;
-                    break;
-                default:
-                    break;
-            }
+        if (player.color.first == Field::RED || player.color.first == Field::REDKING)
+        {
+            redJumps++;
+        }
+        else
+        {
+            whiteJumps++;
+        }
         findJumps(positionAfterJump);
         while (!gameboard(positionAfterJump.row, positionAfterJump.column).possibleMoves.empty())
         {
@@ -155,18 +152,14 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
             gameboard(chosenMove.jumpedPiece.row, chosenMove.jumpedPiece.column).type = Field::FREE;
             gameboard(positionAfterJump.row, positionAfterJump.column).type = Field::FREE;
             positionAfterJump = Position(chosenMove.landingPosition.row, chosenMove.landingPosition.column);
-            switch (player.color.first)
+            if (player.color.first == Field::RED || player.color.first == Field::REDKING)
             {
-                case Field::RED: case Field::REDKING:
-                    redJumps++;
-                    break;
-                case Field::WHITE: case Field::WHITEKING:
-                    whiteJumps++;
-                    break;
-                default:
-                    break;
+                redJumps++;
             }
-            findJumps(positionAfterJump);    
+            else
+            {
+                whiteJumps++;
+            }
         }
     }
     // jesli zwykly ruch
