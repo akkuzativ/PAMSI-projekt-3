@@ -1,12 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-
 #include <iostream>
 #include <vector>
 
 #include "../inc/game.hpp"
 #include "../inc/renderer.hpp"
-
 
 
 

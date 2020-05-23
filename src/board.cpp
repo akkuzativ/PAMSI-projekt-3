@@ -1,6 +1,6 @@
 #include "../inc/board.hpp"
 
-#include <iostream>
+
 
 std::pair<Field::Type, Field::Type> Field::getEnemy(Type type)
 {

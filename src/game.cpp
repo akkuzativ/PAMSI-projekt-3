@@ -1,7 +1,7 @@
 #include <iostream>
 
-
 #include "../inc/game.hpp"
+
 
 
 void Game::findJumps(Position piece)
@@ -30,19 +30,19 @@ void Game::findJumps(Position piece)
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), Field::RED))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), gameboard(piece).type))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
             }
-            if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), Field::RED))
+            if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), gameboard(piece).type))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, -1), piece.returnModified(+2, -2)));
             }
-            if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), Field::WHITE))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), gameboard(piece).type))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
             }
-            if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), Field::WHITE))
+            if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), gameboard(piece).type))
             {
                 gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
             }
@@ -51,6 +51,7 @@ void Game::findJumps(Position piece)
             break;
     }
 }
+
 
 
 void Game::findAllMoves(Position piece)
@@ -80,21 +81,21 @@ void Game::findAllMoves(Position piece)
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
-            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column-1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(+1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,+1)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row+1, piece.column+1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(+1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row+1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,-1)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column-1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(-1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column-1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,+1)));
             }
-            if (gameboard.checkRegularMovePotential(Position(piece.row-1, piece.column+1)))
+            if (gameboard.checkRegularMovePotential(piece.returnModified(-1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(Position(piece.row-1, piece.column+1)));
+                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,-1)));
             }
             break;
         default:
@@ -117,6 +118,8 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
         }
     }
 }
+
+
 
 void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player, sf::RenderWindow& w)
 {
@@ -154,9 +157,10 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
         }
     }
     // jesli zwykly ruch
-    gameboard(chosenMove.landingPosition.row, chosenMove.landingPosition.column).type = gameboard(chosenPiece.row, chosenPiece.column).type;
-    gameboard(chosenPiece.row, chosenPiece.column).type = Field::FREE;
+    gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
+    gameboard(chosenPiece).type = Field::FREE;
 }
+
 
 
 void Game::turnIntoKings()
@@ -189,6 +193,8 @@ void Game::turn(Player& player)
     turnIntoKings();
 }
 
+
+
 void Game::turn(Player& player, sf::RenderWindow& w)
 {
     initializePossibleMovesForPlayersPieces(player);
@@ -197,6 +203,7 @@ void Game::turn(Player& player, sf::RenderWindow& w)
     executeSelectedMove(chosenMove, chosenPiece, player, w);
     turnIntoKings();
 }
+
 
 
 void Game::draw()

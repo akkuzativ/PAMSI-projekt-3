@@ -9,6 +9,7 @@
 #include "game.hpp"
 
 
+
 class Renderer
 {
     private:
@@ -20,7 +21,5 @@ class Renderer
         bool drawBoard(Board gameboard, sf::RenderWindow& window);
         bool highlightChosenPosition(Position chosenPosition);
 };
-
-
 
 #endif

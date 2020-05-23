@@ -3,6 +3,8 @@
 
 #include "board.hpp"
 
+
+
 class Player
 {
     public:
@@ -16,19 +18,23 @@ class Player
 };
 
 
+
 class HumanPlayer: public Player
 {
-    Position selectPiece(Board gameboard);
-    Move selectMove(Board gameboard, Position selectedPiece);
-    Position selectPiece(Board gameboard, sf::RenderWindow& w);
-    Move selectMove(Board gameboard, Position selectedPiece, sf::RenderWindow& w);
+    public:
+        Position selectPiece(Board gameboard);
+        Move selectMove(Board gameboard, Position selectedPiece);
+        Position selectPiece(Board gameboard, sf::RenderWindow& w);
+        Move selectMove(Board gameboard, Position selectedPiece, sf::RenderWindow& w);
 };
+
 
 
 class AIPlayer: public Player
 {
-    Position selectPiece(Board gameboard) {};
-    Move selectMove(Board gameboard, Position selectedPiece) {};
+    public:
+        Position selectPiece(Board gameboard) {};
+        Move selectMove(Board gameboard, Position selectedPiece) {};
 };
 
 

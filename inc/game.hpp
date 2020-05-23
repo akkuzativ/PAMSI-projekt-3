@@ -5,7 +5,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-
 #include "board.hpp"
 #include "player.hpp"
 
@@ -35,7 +34,5 @@ class Game
 
         friend class Renderer;
 };
-
-
 
 #endif
