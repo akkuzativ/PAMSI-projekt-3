@@ -12,7 +12,7 @@ void Game::findJumps(Position piece)
         case Field::RED:
             if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), Field::RED))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
             }
             if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), Field::RED))
             {
@@ -22,29 +22,29 @@ void Game::findJumps(Position piece)
         case Field::WHITE:
             if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), Field::WHITE))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
             }
             if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), Field::WHITE))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
             if (gameboard.checkJumpPotential(piece.returnModified(+1, +1), piece.returnModified(+2, +2), gameboard(piece).type))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1, +1), piece.returnModified(+2, +2)));
             }
             if (gameboard.checkJumpPotential(piece.returnModified(+1, -1), piece.returnModified(+2, -2), gameboard(piece).type))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1, -1), piece.returnModified(+2, -2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1, -1), piece.returnModified(+2, -2)));
             }
             if (gameboard.checkJumpPotential(piece.returnModified(-1, +1), piece.returnModified(-2, +2), gameboard(piece).type))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1, +1), piece.returnModified(-2, +2)));
             }
             if (gameboard.checkJumpPotential(piece.returnModified(-1, -1), piece.returnModified(-2, -2), gameboard(piece).type))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1, -1), piece.returnModified(-2, -2)));
             }
             break;
         default:
@@ -63,39 +63,39 @@ void Game::findAllMoves(Position piece)
         case Field::RED:
             if (gameboard.checkRegularMovePotential(piece.returnModified(+1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,+1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1,+1)));
             }
             if (gameboard.checkRegularMovePotential(piece.returnModified(+1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,-1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1,-1)));
             }
             break;
         case Field::WHITE:
             if (gameboard.checkRegularMovePotential(piece.returnModified(-1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,+1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1,+1)));
             }
             if (gameboard.checkRegularMovePotential(piece.returnModified(-1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,-1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1,-1)));
             }
             break;
         case Field::REDKING: case Field::WHITEKING:
             if (gameboard.checkRegularMovePotential(piece.returnModified(+1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,+1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1,+1)));
             }
             if (gameboard.checkRegularMovePotential(piece.returnModified(+1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(+1,-1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(+1,-1)));
             }
             if (gameboard.checkRegularMovePotential(piece.returnModified(-1,+1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,+1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1,+1)));
             }
             if (gameboard.checkRegularMovePotential(piece.returnModified(-1,-1)))
             {
-                gameboard(piece).possibleMoves.push_back(Move(piece.returnModified(-1,-1)));
+                gameboard(piece).possibleMoves.emplace_back(Move(piece.returnModified(-1,-1)));
             }
             break;
         default:
@@ -125,7 +125,7 @@ Position Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player
 {
     Position landingPosition;
     // jesli to bicie
-    if (chosenMove.jumpedPiece != Position(-99, -99))
+    if (chosenMove.type == Move::JUMP)
     {
         gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
         gameboard(chosenPiece).type = Field::FREE;
@@ -142,7 +142,7 @@ Position Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player
         findJumps(landingPosition);
         while (!gameboard(landingPosition).possibleMoves.empty())
         {
-            std::cout << "sa dodatkowe bicia";
+            std::cout << "(i) Sa dodatkowe bicia";
             chosenMove = player.selectMove(gameboard, landingPosition, w);
             gameboard(chosenMove.landingPosition).type = gameboard(landingPosition).type;
             gameboard(landingPosition).type = Field::FREE;

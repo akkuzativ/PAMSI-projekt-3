@@ -34,7 +34,6 @@ int main()
         {
             std::cout << "Tura bialego" << std::endl;
             g.turn(user1, w);
-            g.draw();
             w.clear();
             r.drawBoard(g.gameboard, w);
             w.display();
@@ -43,7 +42,6 @@ int main()
         {
             std::cout << "Tura czerwonego" << std::endl;
             g.turn(user2, w);
-            g.draw();
             w.clear();
             r.drawBoard(g.gameboard, w);
             w.display();

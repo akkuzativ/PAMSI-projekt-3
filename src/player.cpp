@@ -8,7 +8,7 @@
 
 
 
-Position HumanPlayer::selectPiece(Board gameboard)
+Position HumanPlayer::selectPiece(Board& gameboard)
 {
     int row, column;
     do
@@ -21,9 +21,8 @@ Position HumanPlayer::selectPiece(Board gameboard)
 
 
 
-Move HumanPlayer::selectMove(Board gameboard, Position chosenPiece)
+Move HumanPlayer::selectMove(Board& gameboard, Position chosenPiece)
 {
-    std::cout << "wybierz miejsce na ktore chcesz polozyc pionek: ";
     bool possibleMoveNotSelected = true;
     Move chosenMove;
     int row, column;
@@ -45,7 +44,7 @@ Move HumanPlayer::selectMove(Board gameboard, Position chosenPiece)
 
 
 
-Position HumanPlayer::selectPiece(Board gameboard, sf::RenderWindow& w)
+Position HumanPlayer::selectPiece(Board& gameboard, sf::RenderWindow& w)
 {
     sf::Event e;
     int row = -1;
@@ -57,7 +56,6 @@ Position HumanPlayer::selectPiece(Board gameboard, sf::RenderWindow& w)
         {
             row = floor(sf::Mouse::getPosition(w).y/32);
             column = floor(sf::Mouse::getPosition(w).x/32);
-            std::cout << row << " " << column << std::endl;
         }
     } while ((gameboard(row, column).type != color.first && gameboard(row, column).type != color.second) || row < 0 || row > 7 || column < 0 || column > 7 || gameboard(row, column).possibleMoves.empty());
     return {row, column};   
@@ -65,10 +63,9 @@ Position HumanPlayer::selectPiece(Board gameboard, sf::RenderWindow& w)
 
 
 
-Move HumanPlayer::selectMove(Board gameboard, Position chosenPiece, sf::RenderWindow& w)
+Move HumanPlayer::selectMove(Board& gameboard, Position chosenPiece, sf::RenderWindow& w)
 {
     sf::Event e;
-    std::cout << "wybierz miejsce na ktore chcesz polozyc pionek: ";
     bool possibleMoveNotSelected = true;
     Move chosenMove;
     int row = -1;
