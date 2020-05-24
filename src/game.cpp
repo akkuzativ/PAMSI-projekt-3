@@ -121,12 +121,14 @@ void Game::initializePossibleMovesForPlayersPieces(Player& player)
 
 
 
-void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player, sf::RenderWindow& w)
+Position Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& player, sf::RenderWindow& w)
 {
+    Position landingPosition;
     // jesli to bicie
     if (chosenMove.jumpedPiece != Position(-99, -99))
     {
         gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
+        gameboard(chosenPiece).type = Field::FREE;
         gameboard(chosenMove.jumpedPiece).type = Field::FREE;
         Position landingPosition(chosenMove.landingPosition);
         if (player.color.first == Field::RED || player.color.first == Field::REDKING)
@@ -143,6 +145,7 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
             std::cout << "sa dodatkowe bicia";
             chosenMove = player.selectMove(gameboard, landingPosition, w);
             gameboard(chosenMove.landingPosition).type = gameboard(landingPosition).type;
+            gameboard(landingPosition).type = Field::FREE;
             gameboard(chosenMove.jumpedPiece).type = Field::FREE;
             landingPosition = Position(chosenMove.landingPosition);
             if (player.color.first == Field::RED || player.color.first == Field::REDKING)
@@ -157,8 +160,13 @@ void Game::executeSelectedMove(Move chosenMove, Position chosenPiece, Player& pl
         }
     }
     // jesli zwykly ruch
-    gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
-    gameboard(chosenPiece).type = Field::FREE;
+    else
+    {
+        gameboard(chosenMove.landingPosition).type = gameboard(chosenPiece).type;
+        gameboard(chosenPiece).type = Field::FREE;
+        landingPosition = chosenMove.landingPosition;
+    }
+    return landingPosition;
 }
 
 
@@ -201,6 +209,13 @@ void Game::turn(Player& player, sf::RenderWindow& w)
     Position chosenPiece = player.selectPiece(gameboard, w);
     Move chosenMove = player.selectMove(gameboard, chosenPiece, w);
     executeSelectedMove(chosenMove, chosenPiece, player, w);
+    /*
+    while (chosenMove.type == Move::JUMP)
+    {
+        Position landingPosiiton = executeSelectedMove(chosenMove, chosenPiece, player, w);
+        Move chosenMove = player.selectMove(gameboard, landingPosiiton, w);   
+    }
+    */
     turnIntoKings();
 }
 
