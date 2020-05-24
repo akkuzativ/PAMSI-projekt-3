@@ -24,15 +24,18 @@ class Position
 
 class Move
 {
+    public:
+        enum Type {REGULAR, JUMP};  
     protected:
+        Type type;
         Position jumpedPiece;
         Position landingPosition;
 
 
     public:
         Move() {};
-        Move(Position lP) {jumpedPiece = {-99, -99}; landingPosition = lP;};
-        Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP;};
+        Move(Position lP) {jumpedPiece = {-99, -99}; landingPosition = lP; type = REGULAR;};
+        Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP; type = JUMP;};
 
         friend class Player;
         friend class Field;
