@@ -33,6 +33,11 @@ class HumanPlayer: public Player
 class AIPlayer: public Player
 {
     public:
+        void minimax();
+        std::pair<Position, Move> bestPieceAndMove(Board gameboard);
+
+
+
         Position selectPiece(Board& gameboard) {};
         Move selectMove(Board& gameboard, Position selectedPiece) {};
 };

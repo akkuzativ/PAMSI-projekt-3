@@ -58,7 +58,7 @@ Position HumanPlayer::selectPiece(Board& gameboard, sf::RenderWindow& w)
             column = floor(sf::Mouse::getPosition(w).x/32);
         }
     } while ((gameboard(row, column).type != color.first && gameboard(row, column).type != color.second) || row < 0 || row > 7 || column < 0 || column > 7 || gameboard(row, column).possibleMoves.empty());
-    return {row, column};   
+    return {row, column};
 }
 
 
@@ -88,4 +88,32 @@ Move HumanPlayer::selectMove(Board& gameboard, Position chosenPiece, sf::RenderW
         }   
     }
     return chosenMove;
+}
+
+
+
+
+
+void AIPlayer::minimax()
+{
+
+}
+
+
+std::pair<Position, Move> AIPlayer::bestPieceAndMove(Board gameboard)
+{
+    std::vector<Position> usablePieces;
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (gameboard(i, j).type == color.first || gameboard(i, j).type == color.second)
+            {
+                if (!gameboard(i, j).possibleMoves.empty())
+                {
+                    usablePieces.emplace_back(Position(i, j));
+                }     
+            }
+        }
+    }
 }
