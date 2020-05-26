@@ -60,6 +60,9 @@ class Board
         FieldType at(Position p) {return board[p.row][p.column];};
         FieldType& operator()(int r, int c) {return board[r][c];};
         FieldType& operator()(Position p) {return board[p.row][p.column];};
+        void executeMove(Move chosenMove);
+        void kingify();
+        bool gameover();
 };
 
 

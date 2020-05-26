@@ -134,3 +134,37 @@ std::vector<Move> Board::getPossibleMoves(Position piece)
     }
     return moves;
 }
+
+void Board::executeMove(Move chosenMove)
+{
+    if (chosenMove.type == Move::REGULAR)
+    {
+        swapFields(chosenMove.source, chosenMove.landing);
+    }
+    if (chosenMove.type == Move::JUMP)
+    {
+        swapFields(chosenMove.source, chosenMove.landing);
+        removeField(chosenMove.jumpedPiece);
+    }
+}
+
+
+
+void Board::kingify()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (board[0][i] == Board::FieldType::WHITE) board[0][i] = Board::FieldType::WHITEKING;
+    }
+    for (int i = 0; i < 8; i++)
+    {
+        if (board[7][i] == Board::FieldType::RED) board[7][i] = Board::FieldType::REDKING;
+    }
+}
+
+
+
+bool gameover()
+{
+
+}
