@@ -48,29 +48,29 @@ bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
     {
         for (int j = 0; j < 8; j++)
         {
-            switch (gameboard(i, j).type)
+            switch (gameboard(i, j))
             {
-            case Field::INVALID:
+            case Board::FieldType::INVALID:
                 fieldSprites[0].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[0]);
                 break;
-            case Field::FREE:
+            case Board::FieldType::FREE:
                 fieldSprites[1].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[1]);
                 break;
-            case Field::RED:
+            case Board::FieldType::RED:
                 fieldSprites[2].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[2]);
                 break;
-            case Field::WHITE:
-              fieldSprites[3].setPosition(32*j, 32*i);
+            case Board::FieldType::WHITE:
+                fieldSprites[3].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[3]);
                 break;    
-            case Field::REDKING:
+            case Board::FieldType::REDKING:
                 fieldSprites[4].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[4]);
                 break;
-            case Field::WHITEKING:
+            case Board::FieldType::WHITEKING:
                 fieldSprites[5].setPosition(32*j, 32*i);
                 window.draw(fieldSprites[5]);
                 break;

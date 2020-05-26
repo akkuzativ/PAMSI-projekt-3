@@ -1,87 +1,65 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
+#include <iostream>
 #include <vector>
 
 
 
-class Position
+
+
+struct Position
 {
-    public:
-        int row;
-        int column;
-
-
-        Position() {};
-        Position(int r, int c) {row = r; column = c;};
-        ~Position() {};
-        Position returnModified(int drow, int dcolumn) {return Position(row+drow, column+dcolumn);};
-        bool operator ==(Position p) {if (row == p.row && column == p.column) return true; else return false;};
-        bool operator !=(Position p) {if (row != p.row || column != p.column) return true; else return false;};
+    int row;
+    int column;
+    Position() {};
+    Position(int r, int c) {row = r; column = c;};
+    bool operator==(Position p) {if (row == p.row && column == p.column) return true; else return false; };
+    bool operator!=(Position p) {if (column != p.column && column != p.column) return true; else return false; };
+    Position changed(int drow, int dcolumn) {return Position(row+drow, column+dcolumn);};
 };
 
 
 
-class Move
+struct Move
 {
-    public:
-        enum Type {REGULAR, JUMP};  
-    protected:
-        Type type;
-        Position jumpedPiece;
-        Position landingPosition;
-
-
-    public:
-        Move() {};
-        Move(Position lP) {jumpedPiece = {-99, -99}; landingPosition = lP; type = REGULAR;};
-        Move(Position jP, Position lP) {jumpedPiece = jP; landingPosition = lP; type = JUMP;};
-
-        friend class Player;
-        friend class Field;
-        friend class HumanPlayer;
-        friend class AIPlayer;
-        friend class Game;
+    enum MoveType {REGULAR, JUMP};
+    MoveType type;
+    Position source;
+    Position landing;
+    Position jumpedPiece;
+    Move() {};
+    Move (Position s, Position l) {source = s; landing = l; type = REGULAR;};
+    Move (Position s, Position j, Position l) {source = s; jumpedPiece = j; landing = l; type = JUMP;};
 };
 
-
-
-class Field
-{
-    public:
-        enum Type {INVALID, FREE, RED, WHITE, REDKING, WHITEKING};
-        static std::pair<Type, Type> getEnemy(Type type);
-        friend class Board;
-        friend class Game;
-        friend class Player;
-        friend class HumanPlayer;
-        friend class AIPlayer;
-        friend class Renderer;
-
-
-    private:
-        Type type;
-        std::vector<Move> possibleMoves;
-    public:
-};
 
 
 
 class Board
 {
+    public:
+        enum class FieldType {INVALID, FREE, RED, WHITE, REDKING, WHITEKING};
     private:
-        Field _board[8][8];
-
-
+        FieldType board[8][8];
     public:
         Board();
-        ~Board() {};
-        std::vector<Field*> getRedPieces();
-        std::vector<Field*> getWhitePieces();
-        Field& operator()(int i, int j) {return _board[i][j];};
-        Field& operator()(Position p) {return _board[p.row][p.column];};
-        bool checkRegularMovePotential(Position position);
-        bool checkJumpPotential(Position pieceToJumped, Position landingPosition, Field::Type currentTurn);  
+        void removeField(Position p)
+        {
+            board[p.row][p.column] = FieldType::FREE;
+        };
+        void swapFields(Position p1, Position p2) 
+        {
+            FieldType tmp = board[p1.row][p1.column];
+            board[p1.row][p1.column] = board[p2.row][p2.column];
+            board[p2.row][p2.column] = tmp;
+        };
+        bool canMove(Position source, Position landing);
+        bool canJump(Position source, Position jumped, Position landing);
+        std::vector<Move> getPossibleMoves(Position piece);
+        FieldType at(Position p) {return board[p.row][p.column];};
+        FieldType& operator()(int r, int c) {return board[r][c];};
+        FieldType& operator()(Position p) {return board[p.row][p.column];};
 };
 
 

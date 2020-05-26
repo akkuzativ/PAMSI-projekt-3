@@ -1,21 +1,5 @@
 #include "../inc/board.hpp"
 
-
-
-std::pair<Field::Type, Field::Type> Field::getEnemy(Type type)
-{
-    if (type == RED || type == REDKING)
-    {
-        return {WHITE, WHITEKING};
-    }
-    else
-    {
-        return {RED, REDKING};
-    }
-}
-
-
-
 Board::Board()
 {
     for (int i = 0; i < 8; i++)
@@ -24,68 +8,112 @@ Board::Board()
         {
             if ((i+j)%2 == 0)
             {
-                _board[i][j].type = Field::INVALID;
+                board[i][j]= FieldType::INVALID;
             }
             else
             {
                 if (i < 3)
                 {
-                    _board[i][j].type = Field::RED;
+                    board[i][j] = FieldType::RED;
                 }
                 else if (i > 4)
                 {
-                    _board[i][j].type = Field::WHITE;
+                    board[i][j] = FieldType::WHITE;
                 }
                 else
                 {
-                    _board[i][j].type = Field::FREE;
+                    board[i][j] = FieldType::FREE;
                 }
             }
         }
     }
 }
 
-
-
-bool Board::checkRegularMovePotential(Position position)
+bool Board::canMove(Position source, Position landing)
 {
-    if (position.row < 0 || position.row > 7 || position.column < 0 || position.column > 7)
+    
+    if (landing.row < 0 || landing.row > 7 || landing.column < 0 || landing.column > 7)
     {
         return false;
     }
-    if (_board[position.row][position.column].type != Field::FREE)
+    if (board[landing.row][landing.column] != FieldType::FREE)
     {
+        std::cout << "test2" << std::endl;
         return false;
     }
-
-
     return true;
 }
 
 
-
-bool Board::checkJumpPotential(Position pieceToBeJumped, Position landingPosition, Field::Type currentTurn)
+bool Board::canJump(Position source, Position jumped, Position landing)
 {
-    if (pieceToBeJumped.row < 0 || pieceToBeJumped.row > 7 || pieceToBeJumped.column < 0 || pieceToBeJumped.column > 7)
+    std::pair<FieldType, FieldType> enemy;
+    if (at(source) == FieldType::WHITE || at(source) == FieldType::WHITEKING)
+    {
+        enemy = {FieldType::RED, FieldType::REDKING};
+    }
+    else
+    {
+        enemy = {FieldType::WHITE, FieldType::WHITEKING};
+    }
+
+
+    if (jumped.row < 0 || jumped.row > 7 || jumped.column < 0 || jumped.column > 7)
     {
         return false;
     }
 
-    if (landingPosition.row < 0 || landingPosition.row > 7 || landingPosition.column < 0 || landingPosition.column > 7)
+    if (landing.row < 0 || landing.row > 7 || landing.column < 0 || landing.column > 7)
     {
         return false;
     }
     
-    if (_board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).first && _board[pieceToBeJumped.row][pieceToBeJumped.column].type != Field::getEnemy(currentTurn).second)
+    if (at(jumped) != enemy.first && at(jumped) != enemy.second)
     {
         return false;
     }
     
-    if (_board[landingPosition.row][landingPosition.column].type != Field::FREE)
+    if (at(landing) != FieldType::FREE)
     {
         return false;
     }
 
     
     return true;
+}
+
+
+std::vector<Move> Board::getPossibleMoves(Position piece)
+{
+    std::vector<Move> moves;
+    switch (at(piece))
+    {
+        case FieldType::WHITE:
+            if (canJump(piece, piece.changed(-1, -1), piece.changed(-2, -2))) moves.emplace_back(Move(piece, piece.changed(-1, -1), piece.changed(-2, -2)));
+            if (canJump(piece, piece.changed(-1, +1), piece.changed(-2, +2))) moves.emplace_back(Move(piece, piece.changed(-1, +1), piece.changed(-2, +2)));
+            if (canMove(piece, piece.changed(-1, -1))) moves.emplace_back(Move(piece, piece.changed(-1, -1)));
+            if (canMove(piece, piece.changed(-1, +1))) moves.emplace_back(Move(piece, piece.changed(-1, +1)));
+            break;
+
+        case FieldType::RED:
+            if (canJump(piece, piece.changed(+1, -1), piece.changed(+2, -2))) moves.emplace_back(Move(piece, piece.changed(+1, -1), piece.changed(+2, -2)));
+            if (canJump(piece, piece.changed(+1, +1), piece.changed(+2, +2))) moves.emplace_back(Move(piece, piece.changed(+1, +1), piece.changed(+2, +2)));
+            if (canMove(piece, piece.changed(+1, -1))) moves.emplace_back(Move(piece, piece.changed(+1, -1)));
+            if (canMove(piece, piece.changed(+1, +1))) moves.emplace_back(Move(piece, piece.changed(+1, +1)));
+            break;
+
+        case FieldType::REDKING: case FieldType::WHITEKING:
+            if (canJump(piece, piece.changed(-1, -1), piece.changed(-2, -2))) moves.emplace_back(Move(piece, piece.changed(-1, -1), piece.changed(-2, -2)));
+            if (canJump(piece, piece.changed(-1, +1), piece.changed(-2, +2))) moves.emplace_back(Move(piece, piece.changed(-1, +1), piece.changed(-2, +2)));
+            if (canJump(piece, piece.changed(+1, -1), piece.changed(+2, -2))) moves.emplace_back(Move(piece, piece.changed(+1, -1), piece.changed(+2, -2)));
+            if (canJump(piece, piece.changed(+1, +1), piece.changed(+2, +2))) moves.emplace_back(Move(piece, piece.changed(+1, +1), piece.changed(+2, +2)));
+            if (canMove(piece, piece.changed(-1, -1))) moves.emplace_back(Move(piece, piece.changed(-1, -1)));
+            if (canMove(piece, piece.changed(-1, +1))) moves.emplace_back(Move(piece, piece.changed(-1, +1)));
+            if (canMove(piece, piece.changed(+1, -1))) moves.emplace_back(Move(piece, piece.changed(+1, -1)));
+            if (canMove(piece, piece.changed(+1, +1))) moves.emplace_back(Move(piece, piece.changed(+1, +1)));
+            break;
+        case FieldType::FREE: case FieldType::INVALID:
+            break;
+    }
+    return moves;
 }

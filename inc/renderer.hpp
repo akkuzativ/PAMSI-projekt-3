@@ -6,7 +6,7 @@
 #include <SFML/System.hpp>
 #include <string>
 
-#include "game.hpp"
+#include "board.hpp"
 
 
 
@@ -19,7 +19,8 @@ class Renderer
     public:
         bool loadTextures();
         bool drawBoard(Board gameboard, sf::RenderWindow& window);
-        bool highlightChosenPosition(Position chosenPosition);
+        bool highlightChosenPosition(Position chosenPiece);
+        bool highlightPossibleMoves(std::vector<Move> possibleMoves);
 };
 
 #endif

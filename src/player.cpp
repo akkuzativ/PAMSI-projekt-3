@@ -1,119 +1,75 @@
-#include <iostream>
-#include <cmath>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-
 #include "../inc/player.hpp"
 
 
 
-Position HumanPlayer::selectPiece(Board& gameboard)
+
+#include <iostream>
+
+std::ostream& operator<<(std::ostream& out, Position p);
+std::ostream& operator<<(std::ostream& out, Move m);
+Position getMouseInput(sf::RenderWindow& window);
+
+
+
+
+void Player::updateMyPieces(Board gameboard)
 {
-    int row, column;
-    do
-    {
-        std::cout << "wybierz pionek: ";
-        std::cin >> row >> column;
-    } while ((gameboard(row, column).type != color.first && gameboard(row, column).type != color.second) || row < 0 || row > 7 || column < 0 || column > 7 || gameboard(row, column).possibleMoves.empty());
-    return {row, column};
-}
-
-
-
-Move HumanPlayer::selectMove(Board& gameboard, Position chosenPiece)
-{
-    bool possibleMoveNotSelected = true;
-    Move chosenMove;
-    int row, column;
-    while(possibleMoveNotSelected)
-    {
-        std::cin >> row >> column;
-        for (unsigned i = 0; i < gameboard(chosenPiece).possibleMoves.size(); i++)
-        {
-            if (gameboard(chosenPiece).possibleMoves[i].landingPosition == Position(row, column))
-            {
-                chosenMove = gameboard(chosenPiece).possibleMoves[i];
-                possibleMoveNotSelected = false;
-            }
-        }
-        
-    }
-    return chosenMove;
-}
-
-
-
-Position HumanPlayer::selectPiece(Board& gameboard, sf::RenderWindow& w)
-{
-    sf::Event e;
-    int row = -1;
-    int column = -1;
-    do
-    {
-        w.pollEvent(e);
-        if (e.type == sf::Event::MouseButtonPressed)
-        {
-            row = floor(sf::Mouse::getPosition(w).y/32);
-            column = floor(sf::Mouse::getPosition(w).x/32);
-        }
-    } while ((gameboard(row, column).type != color.first && gameboard(row, column).type != color.second) || row < 0 || row > 7 || column < 0 || column > 7 || gameboard(row, column).possibleMoves.empty());
-    return {row, column};
-}
-
-
-
-Move HumanPlayer::selectMove(Board& gameboard, Position chosenPiece, sf::RenderWindow& w)
-{
-    sf::Event e;
-    bool possibleMoveNotSelected = true;
-    Move chosenMove;
-    int row = -1;
-    int column = -1;
-    while(possibleMoveNotSelected)
-    {
-        w.pollEvent(e);
-        if (e.type == sf::Event::MouseButtonPressed)
-        {
-            row = floor(sf::Mouse::getPosition(w).y/32);
-            column = floor(sf::Mouse::getPosition(w).x/32);
-        }
-        for (unsigned i = 0; i < gameboard(chosenPiece).possibleMoves.size(); i++)
-        {
-            if (gameboard(chosenPiece).possibleMoves[i].landingPosition == Position(row, column))
-            {
-                chosenMove = gameboard(chosenPiece).possibleMoves[i];
-                possibleMoveNotSelected = false;
-            }
-        }   
-    }
-    return chosenMove;
-}
-
-
-
-
-
-void AIPlayer::minimax()
-{
-
-}
-
-
-std::pair<Position, Move> AIPlayer::bestPieceAndMove(Board gameboard)
-{
-    std::vector<Position> usablePieces;
+    myPieces.clear();
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (gameboard(i, j).type == color.first || gameboard(i, j).type == color.second)
+            if (gameboard(i, j) == color.first || gameboard(i, j) == color.second)
             {
-                if (!gameboard(i, j).possibleMoves.empty())
-                {
-                    usablePieces.emplace_back(Position(i, j));
-                }     
+                myPieces.emplace_back(Position(i, j));
             }
         }
     }
+}
+
+
+
+Position Player::choosePiece(Board gameboard, sf::RenderWindow& window)
+{
+    updateMyPieces(gameboard);
+    Position chosenPiece;
+    std::cout << "Wybierz pionek..." << std::endl;
+    do
+    {
+        chosenPiece = getMouseInput(window);
+        for (std::vector<Position>::iterator it = myPieces.begin(); it < myPieces.end(); ++it)
+        {
+            if (*it == chosenPiece)
+            {
+                return *it;
+            }
+        }
+    } while (chosenPiece.row != -9 && chosenPiece.column != -9);
+    return Position({-9,-9});
+}
+
+
+
+Move Player::chooseMove(Position Piece, Board gameboard, sf::RenderWindow& window)
+{
+    std::vector<Move> possibleMoves = gameboard.getPossibleMoves(Piece);
+    for (std::vector<Move>::iterator it = possibleMoves.begin(); it < possibleMoves.end(); ++it)
+    {
+        std::cout << *it << std::endl;
+    }
+    Position chosenLanding;
+    Move chosenMove;
+    std::cout << "Wybierz gdzie go umiescic..." << std::endl;
+    do
+    {
+        chosenLanding = getMouseInput(window);
+        for (std::vector<Move>::iterator it = possibleMoves.begin(); it < possibleMoves.end(); ++it)
+        {
+            if (it->landing == chosenLanding)
+            {
+                return *it;
+            }
+        }
+    } while (chosenLanding.row != -9 && chosenLanding.column != -9);
+    return Move({-9,-9},{-9,-9});
 }
