@@ -9,27 +9,6 @@
 #include "../inc/renderer.hpp"
 
 
-
-std::ostream& operator << (std::ostream& out, Position p)
-{
-    out << p.row << " " << p.column;
-    return out;
-}
-
-
-
-std::ostream& operator << (std::ostream& out, Move m)
-{
-    out << "source: " << m.source << "  landing: " << m.landing;
-    if (m.type == Move::JUMP) out << "  jumped: " << m.jumpedPiece;
-    return out;
-}
-
-
-
-
-
-
 void kingify(Board& gameboard)
 {
     for (int i = 0; i < 8; i++)
@@ -57,27 +36,27 @@ void executeMove(Board& gameboard, Move chosenMove)
     }
 }
 
-
-
-void turnProcedure(Board& gameboard, Player player, sf::RenderWindow& window)
-{
-    Position chosenPiece = player.choosePiece(gameboard, window);
-    Move chosenMove = player.chooseMove(chosenPiece, gameboard, window);
-    executeMove(gameboard, chosenMove);
-    kingify(gameboard);
-}
-
-
-
 int main()
 {
     sf::RenderWindow gameWindow(sf::VideoMode(256, 256), "projekt-3", sf::Style::Titlebar | sf::Style::Close);
     Board gameboard;
     Renderer renderer;
     Player player1({Board::FieldType::RED, Board::FieldType::REDKING});
-    Player player2({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
+    AI player2({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
+
+
+    bool validPieceChosen = false;
+    bool validMoveChosen = false;
+    Position clickedTile;
+    Position chosenPiece;
+    Move chosenMove;
+
+
     renderer.loadTextures();
     gameWindow.setFramerateLimit(30);
+
+    //gameboard(4, 3) = Board::FieldType::RED;
+
     renderer.drawBoard(gameboard, gameWindow);
     gameWindow.display();
     while (gameWindow.isOpen()) //main loop
@@ -89,12 +68,47 @@ int main()
             {
                 gameWindow.close();
             }
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                player1.updateMyPieces(gameboard);
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    clickedTile = Position(floor(event.mouseButton.y/32), floor(event.mouseButton.x/32));
+                    for (std::vector<Position>::iterator it = player1.myPieces.begin(); it < player1.myPieces.end(); ++it)
+                    {
+                        if (*it == clickedTile)
+                        {
+                            chosenPiece = clickedTile;
+                            validPieceChosen = true;
+                        }
+                    }
+                    if (validPieceChosen)
+                    {
+                        std::vector<Move> possibleMoves = gameboard.getPossibleMoves(chosenPiece);
+                        for (std::vector<Move>::iterator it = possibleMoves.begin(); it < possibleMoves.end(); ++it)
+                        {
+                            if (it->landing == clickedTile)
+                            {
+                                chosenMove = *it;
+                                validMoveChosen = true;
+                            }
+                        }
+                    }
+                }
+                if (validMoveChosen)
+                {
+                    executeMove(gameboard, chosenMove);
+                    validPieceChosen = false;
+                    validMoveChosen = false;
+                    kingify(gameboard);
+                    renderer.drawBoard(gameboard, gameWindow);
+                    gameWindow.display();
+                    executeMove(gameboard, player2.bestMove(gameboard, 4, player1));
+                    kingify(gameboard);
+                    renderer.drawBoard(gameboard, gameWindow);
+                    gameWindow.display();
+                }
+            }
         }
-        turnProcedure(gameboard, player1, gameWindow);
-        renderer.drawBoard(gameboard, gameWindow);
-        gameWindow.display();
-        turnProcedure(gameboard, player2, gameWindow);
-        renderer.drawBoard(gameboard, gameWindow);
-        gameWindow.display();
     }
 }

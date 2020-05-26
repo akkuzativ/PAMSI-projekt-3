@@ -10,8 +10,6 @@ std::ostream& operator<<(std::ostream& out, Move m);
 Position getMouseInput(sf::RenderWindow& window);
 
 
-
-
 void Player::updateMyPieces(Board gameboard)
 {
     myPieces.clear();
@@ -25,77 +23,4 @@ void Player::updateMyPieces(Board gameboard)
             }
         }
     }
-}
-
-Position getMouseInput(sf::RenderWindow& window)
-{
-    while (window.isOpen()) //main loop
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    return Position(floor(sf::Mouse::getPosition(window).y/32), floor(sf::Mouse::getPosition(window).x/32));
-                }
-                if (event.mouseButton.button == sf::Mouse::Right)
-                {
-
-                }
-            }
-        }
-    }
-}
-
-
-
-Position Player::choosePiece(Board gameboard, sf::RenderWindow& window)
-{
-    updateMyPieces(gameboard);
-    Position chosenPiece;
-    std::cout << "Wybierz pionek..." << std::endl;
-    do
-    {
-        chosenPiece = getMouseInput(window);
-        for (std::vector<Position>::iterator it = myPieces.begin(); it < myPieces.end(); ++it)
-        {
-            if (*it == chosenPiece)
-            {
-                return *it;
-            }
-        }
-    } while (chosenPiece.row != -9 && chosenPiece.column != -9);
-    return Position({-9,-9});
-}
-
-
-
-Move Player::chooseMove(Position Piece, Board gameboard, sf::RenderWindow& window)
-{
-    std::vector<Move> possibleMoves = gameboard.getPossibleMoves(Piece);
-    for (std::vector<Move>::iterator it = possibleMoves.begin(); it < possibleMoves.end(); ++it)
-    {
-        std::cout << *it << std::endl;
-    }
-    Position chosenLanding;
-    Move chosenMove;
-    std::cout << "Wybierz gdzie go umiescic..." << std::endl;
-    do
-    {
-        chosenLanding = getMouseInput(window);
-        for (std::vector<Move>::iterator it = possibleMoves.begin(); it < possibleMoves.end(); ++it)
-        {
-            if (it->landing == chosenLanding)
-            {
-                return *it;
-            }
-        }
-    } while (chosenLanding.row != -9 && chosenLanding.column != -9);
-    return Move({-9,-9},{-9,-9});
 }

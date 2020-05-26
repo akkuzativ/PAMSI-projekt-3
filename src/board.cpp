@@ -1,5 +1,23 @@
 #include "../inc/board.hpp"
 
+
+
+
+
+std::ostream& operator << (std::ostream& out, Position p)
+{
+    out << p.row << " " << p.column;
+    return out;
+}
+
+std::ostream& operator << (std::ostream& out, Move m)
+{
+    out << "source: " << m.source << "  landing: " << m.landing;
+    if (m.type == Move::JUMP) out << "  jumped: " << m.jumpedPiece;
+    return out;
+}
+
+
 Board::Board()
 {
     for (int i = 0; i < 8; i++)
@@ -38,7 +56,6 @@ bool Board::canMove(Position source, Position landing)
     }
     if (board[landing.row][landing.column] != FieldType::FREE)
     {
-        std::cout << "test2" << std::endl;
         return false;
     }
     return true;
