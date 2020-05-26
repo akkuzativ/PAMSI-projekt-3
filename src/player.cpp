@@ -2,7 +2,7 @@
 
 
 
-
+#include <cmath>
 #include <iostream>
 
 std::ostream& operator<<(std::ostream& out, Position p);
@@ -22,6 +22,32 @@ void Player::updateMyPieces(Board gameboard)
             if (gameboard(i, j) == color.first || gameboard(i, j) == color.second)
             {
                 myPieces.emplace_back(Position(i, j));
+            }
+        }
+    }
+}
+
+Position getMouseInput(sf::RenderWindow& window)
+{
+    while (window.isOpen()) //main loop
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    return Position(floor(sf::Mouse::getPosition(window).y/32), floor(sf::Mouse::getPosition(window).x/32));
+                }
+                if (event.mouseButton.button == sf::Mouse::Right)
+                {
+
+                }
             }
         }
     }

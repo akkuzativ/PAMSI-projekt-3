@@ -11,7 +11,6 @@ class Player
 {
     protected:
         std::pair<Board::FieldType, Board::FieldType> color;
-        Move bestMove; ///bedzie dzialac jak zmienna globalna, dostosowywana w minimaxie !!!
         std::vector<Position> myPieces;
 
     public:
@@ -25,7 +24,9 @@ class Player
 
 class AI: public Player
 {
-
+    public:
+        Move bestMove; ///bedzie dzialac jak zmienna globalna, dostosowywana w minimaxie !!!
+        int minimax(Board gameboard, int depth, bool isMaxing);
 };
 
 

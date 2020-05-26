@@ -26,33 +26,6 @@ std::ostream& operator << (std::ostream& out, Move m)
 }
 
 
-Position getMouseInput(sf::RenderWindow& window)
-{
-    while (window.isOpen()) //main loop
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    return Position(floor(sf::Mouse::getPosition(window).y/32), floor(sf::Mouse::getPosition(window).x/32));
-                }
-                if (event.mouseButton.button == sf::Mouse::Right)
-                {
-
-                }
-            }
-        }
-    }
-    return Position(-1, -1);
-}
-
 
 
 
