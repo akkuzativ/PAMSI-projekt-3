@@ -9,12 +9,9 @@
 
 class Player
 {
-    //protected:
     public:
         std::pair<Board::FieldType, Board::FieldType> color;
         std::vector<Position> myPieces;
-
-    public:
         Player() {};
         Player(std::pair<Board::FieldType, Board::FieldType> constructorColor) {color = constructorColor;}; 
         void updateMyPieces(Board gameboard);

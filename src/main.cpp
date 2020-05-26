@@ -4,37 +4,59 @@
 #include <cmath>
 
 
+
 #include "../inc/board.hpp"
 #include "../inc/player.hpp"
 #include "../inc/renderer.hpp"
 
 
-void kingify(Board& gameboard)
+
+bool gameover(Player player, AI ai, Board gameboard)
 {
-    for (int i = 0; i < 8; i++)
+    player.updateMyPieces(gameboard);
+    if (player.myPieces.empty())
     {
-        if (gameboard(0, i) == Board::FieldType::WHITE) gameboard(0, i) = Board::FieldType::WHITEKING;
+        std::cout << "Koniec gry,\n Wygrywa komputer\n Powod: Zbicie wszystkich pionkow gracza\n";
+        return true;
     }
-    for (int i = 0; i < 8; i++)
+    ai.updateMyPieces(gameboard);
+    if (ai.myPieces.empty())
     {
-        if (gameboard(7, i) == Board::FieldType::RED) gameboard(7, i) = Board::FieldType::REDKING;
+        std::cout << "Koniec gry,\n Wygrywa gracz\n Powod: Zbicie wszystkich pionkow komputera\n";
+        return true;
     }
+    std::vector<Move> playerMoves;
+    for (std::vector<Position>::iterator it = player.myPieces.begin(); it < player.myPieces.end(); ++it)
+    {
+        std::vector<Move> moves = gameboard.getPossibleMoves(*it);
+        for (std::vector<Move>::iterator itm = moves.begin(); itm < moves.end(); ++itm)
+        {
+            playerMoves.emplace_back(*itm);
+        }
+    }
+    if (playerMoves.empty())
+    {
+        std::cout << "Koniec gry,\n Wygrywa komputer\n Powod: Zablokowanie wykonywania ruchow graczowi\n";
+        return true;
+    }
+    std::vector<Move> aiMoves;
+    for (std::vector<Position>::iterator it = ai.myPieces.begin(); it < ai.myPieces.end(); ++it)
+    {
+        std::vector<Move> moves = gameboard.getPossibleMoves(*it);
+        for (std::vector<Move>::iterator itm = moves.begin(); itm < moves.end(); ++itm)
+        {
+            aiMoves.emplace_back(*itm);
+        }
+    }
+    if(aiMoves.empty())
+    {
+        std::cout << "Koniec gry,\n Wygrywa gracz\n Powod: Zablokowanie wykonywania ruchow komputerowi\n";
+        return true;
+    }
+    return false;
 }
 
 
-
-void executeMove(Board& gameboard, Move chosenMove)
-{
-    if (chosenMove.type == Move::REGULAR)
-    {
-        gameboard.swapFields(chosenMove.source, chosenMove.landing);
-    }
-    if (chosenMove.type == Move::JUMP)
-    {
-        gameboard.swapFields(chosenMove.source, chosenMove.landing);
-        gameboard.removeField(chosenMove.jumpedPiece);
-    }
-}
 
 int main()
 {
@@ -43,28 +65,22 @@ int main()
     Renderer renderer;
     Player player1({Board::FieldType::RED, Board::FieldType::REDKING});
     AI player2({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
-
-
     bool validPieceChosen = false;
     bool validMoveChosen = false;
     Position clickedTile;
     Position chosenPiece;
     Move chosenMove;
-
-
     renderer.loadTextures();
     gameWindow.setFramerateLimit(30);
-
-    //gameboard(4, 3) = Board::FieldType::RED;
-
     renderer.drawBoard(gameboard, gameWindow);
     gameWindow.display();
-    while (gameWindow.isOpen()) //main loop
+    std::cout << "Tura gracza...\n";
+    while (gameWindow.isOpen())
     {
         sf::Event event;
         while (gameWindow.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed || gameover(player1, player2, gameboard))
             {
                 gameWindow.close();
             }
@@ -97,16 +113,18 @@ int main()
                 }
                 if (validMoveChosen)
                 {
-                    executeMove(gameboard, chosenMove);
+                    gameboard.executeMove(chosenMove);
                     validPieceChosen = false;
                     validMoveChosen = false;
-                    kingify(gameboard);
+                    gameboard.kingify();
                     renderer.drawBoard(gameboard, gameWindow);
                     gameWindow.display();
-                    executeMove(gameboard, player2.bestMove(gameboard, 4, player1));
-                    kingify(gameboard);
+                    std::cout << "Tura komputera...\n";
+                    gameboard.executeMove(player2.bestMove(gameboard, 4, player1));
+                    gameboard.kingify();
                     renderer.drawBoard(gameboard, gameWindow);
                     gameWindow.display();
+                    std::cout << "Tura gracza...\n";
                 }
             }
         }

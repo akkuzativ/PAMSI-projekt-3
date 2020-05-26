@@ -2,8 +2,6 @@
 
 
 
-
-
 std::ostream& operator << (std::ostream& out, Position p)
 {
     out << p.row << " " << p.column;
@@ -16,6 +14,7 @@ std::ostream& operator << (std::ostream& out, Move m)
     if (m.type == Move::JUMP) out << "  jumped: " << m.jumpedPiece;
     return out;
 }
+
 
 
 Board::Board()
@@ -47,6 +46,7 @@ Board::Board()
     }
 }
 
+
 bool Board::canMove(Position source, Position landing)
 {
     
@@ -62,6 +62,7 @@ bool Board::canMove(Position source, Position landing)
 }
 
 
+
 bool Board::canJump(Position source, Position jumped, Position landing)
 {
     std::pair<FieldType, FieldType> enemy;
@@ -73,31 +74,25 @@ bool Board::canJump(Position source, Position jumped, Position landing)
     {
         enemy = {FieldType::WHITE, FieldType::WHITEKING};
     }
-
-
     if (jumped.row < 0 || jumped.row > 7 || jumped.column < 0 || jumped.column > 7)
     {
         return false;
     }
-
     if (landing.row < 0 || landing.row > 7 || landing.column < 0 || landing.column > 7)
     {
         return false;
     }
-    
     if (at(jumped) != enemy.first && at(jumped) != enemy.second)
     {
         return false;
     }
-    
     if (at(landing) != FieldType::FREE)
     {
         return false;
     }
-
-    
     return true;
 }
+
 
 
 std::vector<Move> Board::getPossibleMoves(Position piece)
@@ -135,6 +130,8 @@ std::vector<Move> Board::getPossibleMoves(Position piece)
     return moves;
 }
 
+
+
 void Board::executeMove(Move chosenMove)
 {
     if (chosenMove.type == Move::REGULAR)
@@ -160,11 +157,4 @@ void Board::kingify()
     {
         if (board[7][i] == Board::FieldType::RED) board[7][i] = Board::FieldType::REDKING;
     }
-}
-
-
-
-bool gameover()
-{
-
 }

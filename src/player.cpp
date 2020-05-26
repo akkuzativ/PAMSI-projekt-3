@@ -1,13 +1,10 @@
 #include "../inc/player.hpp"
 
-
-
 #include <cmath>
 #include <iostream>
 
-std::ostream& operator<<(std::ostream& out, Position p);
-std::ostream& operator<<(std::ostream& out, Move m);
-Position getMouseInput(sf::RenderWindow& window);
+
+
 
 
 void Player::updateMyPieces(Board gameboard)

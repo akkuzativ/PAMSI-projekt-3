@@ -6,8 +6,6 @@
 
 
 
-
-
 struct Position
 {
     int row;
@@ -32,7 +30,6 @@ struct Move
     Move (Position s, Position l) {source = s; landing = l; type = REGULAR;};
     Move (Position s, Position j, Position l) {source = s; jumpedPiece = j; landing = l; type = JUMP;};
 };
-
 
 
 
@@ -62,7 +59,6 @@ class Board
         FieldType& operator()(Position p) {return board[p.row][p.column];};
         void executeMove(Move chosenMove);
         void kingify();
-        bool gameover();
 };
 
 

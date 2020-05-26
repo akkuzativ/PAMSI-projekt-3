@@ -1,6 +1,7 @@
 #include "../inc/renderer.hpp"
 
 
+
 bool Renderer::loadTextures()
 {
     if (!fieldTextures[0].loadFromFile("resources/invalid.bmp"))
@@ -27,22 +28,15 @@ bool Renderer::loadTextures()
     {
         return false;
     }
-
-
-
     for (int i = 0; i < 6; i++)
     {
         fieldSprites[i].setTexture(fieldTextures[i]);
     }
-
-
-
     return true;
 }
 
 
 bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
-
 {
     for (int i = 0; i < 8; i++)
     {
@@ -78,10 +72,4 @@ bool Renderer::drawBoard(Board gameboard, sf::RenderWindow& window)
         }
     }
     return true;
-}
-
-
-bool highlightChosenPosition(Position chosenPosition)
-{
-    return false;
 }
