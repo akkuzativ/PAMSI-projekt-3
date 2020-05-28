@@ -3,8 +3,6 @@
 #include <SFML/Window.hpp>
 #include <cmath>
 
-
-
 #include "../inc/board.hpp"
 #include "../inc/player.hpp"
 #include "../inc/AI.hpp"
