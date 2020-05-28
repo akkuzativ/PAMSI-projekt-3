@@ -32,7 +32,7 @@ int AI::evaluateScore(Board gameboard, Player enemy)
 
 
 
-int AI::minimax(Board gameboard, int depth, bool isMaxing, Player enemy)
+int AI::minimax(Board gameboard, int depth, bool isMaxing, int alpha, int beta, Player enemy)
 {
     if (depth <= 0)
     {
@@ -56,10 +56,15 @@ int AI::minimax(Board gameboard, int depth, bool isMaxing, Player enemy)
             Board gameboardClone = gameboard;
             gameboardClone.executeMove(*it);
             gameboardClone.kingify();
-            int currentScore = minimax(gameboardClone, depth-1, !isMaxing, enemy);
+            int currentScore = minimax(gameboardClone, depth-1, !isMaxing, alpha, beta, enemy);
             if (currentScore > bestScore)
             {
                 bestScore = currentScore;
+                alpha = std::max(alpha, bestScore);
+                if (alpha < beta)
+                {
+                    break;
+                }
             }
         }
         return bestScore;
@@ -82,10 +87,15 @@ int AI::minimax(Board gameboard, int depth, bool isMaxing, Player enemy)
             Board gameboardClone = gameboard;
             gameboardClone.executeMove(*it);
             gameboardClone.kingify();
-            int currentScore = minimax(gameboardClone, depth-1, !isMaxing, enemy);
+            int currentScore = minimax(gameboardClone, depth-1, !isMaxing, alpha, beta, enemy);
             if (currentScore <= bestScore)
             {
                 bestScore = currentScore;
+                beta = std::min(beta, bestScore);
+                if (beta < alpha)
+                {
+                    break;
+                }
             }   
         }
         return bestScore;  
@@ -113,7 +123,7 @@ Move AI::bestMove(Board gameboard, int depth, Player enemy)
         Board gameboardClone = gameboard;
         gameboardClone.executeMove(*it);
         gameboardClone.kingify();
-        int currentScore = minimax(gameboardClone, depth-1, false, enemy);
+        int currentScore = minimax(gameboardClone, depth-1, false, 1000, -1000, enemy);
         if (currentScore > bestScore)
         {
             bestScore = currentScore;

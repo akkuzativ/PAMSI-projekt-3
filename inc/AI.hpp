@@ -11,7 +11,7 @@ class AI: public Player
         AI() {};
         AI(std::pair<Board::FieldType, Board::FieldType> constructorColor) {color = constructorColor;};
         int evaluateScore(Board gameboard, Player enemy);
-        int minimax(Board gameboard, int depth, bool isMaxing, Player enemy);
+        int minimax(Board gameboard, int depth, bool isMaxing, int alpha, int beta, Player enemy);
         Move bestMove(Board gameboard, int depth, Player enemy);     
 };
 

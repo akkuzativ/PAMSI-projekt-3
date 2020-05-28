@@ -62,20 +62,32 @@ int main()
     sf::RenderWindow gameWindow(sf::VideoMode(256, 256), "projekt-3", sf::Style::Titlebar | sf::Style::Close);
     Board gameboard;
     Renderer renderer;
+
     Player player1({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
     AI player2({Board::FieldType::RED, Board::FieldType::REDKING});
+
     bool validPieceChosen = false;
     bool validMoveChosen = false;
+    bool texturesLoaded = true;
+
     Position clickedTile;
     Position chosenPiece;
     Move chosenMove;
-    renderer.loadTextures();
+
+    if (!renderer.loadTextures())
+    {
+        std::cout << "(!) Nie udalo sie wczytac tekstur." << std::endl;
+        texturesLoaded = false;
+    }
+
     gameWindow.setFramerateLimit(30);
     renderer.drawBoard(gameboard, gameWindow);
     gameWindow.display();
+
     std::cout << "Kolor gracza: bialy; Kolor komputera: czerwony\n\n";
     std::cout << "Tura gracza...\n";
-    while (gameWindow.isOpen())
+
+    while (gameWindow.isOpen() && texturesLoaded)
     {
         sf::Event event;
         while (gameWindow.pollEvent(event))
@@ -129,4 +141,6 @@ int main()
             }
         }
     }
+    
+    return 0;
 }
