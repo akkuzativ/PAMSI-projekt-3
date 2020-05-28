@@ -17,6 +17,8 @@ struct Position
     Position changed(int drow, int dcolumn) {return Position(row+drow, column+dcolumn);};
 };
 
+std::ostream& operator << (std::ostream& out, Position p);
+
 
 
 struct Move
@@ -31,6 +33,8 @@ struct Move
     Move (Position s, Position j, Position l) {source = s; jumpedPiece = j; landing = l; type = JUMP;};
 };
 
+std::ostream& operator << (std::ostream& out, Move m);
+
 
 
 class Board
@@ -41,16 +45,8 @@ class Board
         FieldType board[8][8];
     public:
         Board();
-        void removeField(Position p)
-        {
-            board[p.row][p.column] = FieldType::FREE;
-        };
-        void swapFields(Position p1, Position p2) 
-        {
-            FieldType tmp = board[p1.row][p1.column];
-            board[p1.row][p1.column] = board[p2.row][p2.column];
-            board[p2.row][p2.column] = tmp;
-        };
+        void removeField(Position p);
+        void swapFields(Position p1, Position p2);
         bool canMove(Position source, Position landing);
         bool canJump(Position source, Position jumped, Position landing);
         std::vector<Move> getPossibleMoves(Position piece);
@@ -60,7 +56,5 @@ class Board
         void executeMove(Move chosenMove);
         void kingify();
 };
-
-
 
 #endif

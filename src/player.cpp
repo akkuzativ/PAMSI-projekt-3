@@ -1,10 +1,5 @@
 #include "../inc/player.hpp"
 
-#include <cmath>
-#include <iostream>
-
-
-
 
 
 void Player::updateMyPieces(Board gameboard)

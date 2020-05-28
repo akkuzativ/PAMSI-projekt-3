@@ -7,6 +7,7 @@
 
 #include "../inc/board.hpp"
 #include "../inc/player.hpp"
+#include "../inc/AI.hpp"
 #include "../inc/renderer.hpp"
 
 
@@ -16,13 +17,13 @@ bool gameover(Player player, AI ai, Board gameboard)
     player.updateMyPieces(gameboard);
     if (player.myPieces.empty())
     {
-        std::cout << "Koniec gry,\n Wygrywa komputer\n Powod: Zbicie wszystkich pionkow gracza\n";
+        std::cout << "Koniec gry,\nWygrywa komputer\nPowod: Zbicie wszystkich pionkow gracza\n";
         return true;
     }
     ai.updateMyPieces(gameboard);
     if (ai.myPieces.empty())
     {
-        std::cout << "Koniec gry,\n Wygrywa gracz\n Powod: Zbicie wszystkich pionkow komputera\n";
+        std::cout << "Koniec gry,\nWygrywa gracz\nPowod: Zbicie wszystkich pionkow komputera\n";
         return true;
     }
     std::vector<Move> playerMoves;
@@ -36,7 +37,7 @@ bool gameover(Player player, AI ai, Board gameboard)
     }
     if (playerMoves.empty())
     {
-        std::cout << "Koniec gry,\n Wygrywa komputer\n Powod: Zablokowanie wykonywania ruchow graczowi\n";
+        std::cout << "Koniec gry,\nWygrywa komputer\nPowod: Zablokowanie wykonywania ruchow graczowi\n";
         return true;
     }
     std::vector<Move> aiMoves;
@@ -50,7 +51,7 @@ bool gameover(Player player, AI ai, Board gameboard)
     }
     if(aiMoves.empty())
     {
-        std::cout << "Koniec gry,\n Wygrywa gracz\n Powod: Zablokowanie wykonywania ruchow komputerowi\n";
+        std::cout << "Koniec gry,\nWygrywa gracz\nPowod: Zablokowanie wykonywania ruchow komputerowi\n";
         return true;
     }
     return false;
@@ -63,8 +64,8 @@ int main()
     sf::RenderWindow gameWindow(sf::VideoMode(256, 256), "projekt-3", sf::Style::Titlebar | sf::Style::Close);
     Board gameboard;
     Renderer renderer;
-    Player player1({Board::FieldType::RED, Board::FieldType::REDKING});
-    AI player2({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
+    Player player1({Board::FieldType::WHITE, Board::FieldType::WHITEKING});
+    AI player2({Board::FieldType::RED, Board::FieldType::REDKING});
     bool validPieceChosen = false;
     bool validMoveChosen = false;
     Position clickedTile;
@@ -74,6 +75,7 @@ int main()
     gameWindow.setFramerateLimit(30);
     renderer.drawBoard(gameboard, gameWindow);
     gameWindow.display();
+    std::cout << "Kolor gracza: bialy; Kolor komputera: czerwony\n\n";
     std::cout << "Tura gracza...\n";
     while (gameWindow.isOpen())
     {

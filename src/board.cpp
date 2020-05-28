@@ -8,6 +8,8 @@ std::ostream& operator << (std::ostream& out, Position p)
     return out;
 }
 
+
+
 std::ostream& operator << (std::ostream& out, Move m)
 {
     out << "source: " << m.source << "  landing: " << m.landing;
@@ -45,6 +47,7 @@ Board::Board()
         }
     }
 }
+
 
 
 bool Board::canMove(Position source, Position landing)
@@ -126,8 +129,25 @@ std::vector<Move> Board::getPossibleMoves(Position piece)
             break;
         case FieldType::FREE: case FieldType::INVALID:
             break;
+
     }
     return moves;
+}
+
+
+
+void Board::removeField(Position p)
+{
+    board[p.row][p.column] = FieldType::FREE;
+}
+
+
+
+void Board::swapFields(Position p1, Position p2) 
+{
+    FieldType tmp = board[p1.row][p1.column];
+    board[p1.row][p1.column] = board[p2.row][p2.column];
+    board[p2.row][p2.column] = tmp;
 }
 
 
