@@ -1,7 +1,7 @@
 OUTPUT_NAME = projekt-3
 
-FLAGS = -Wall -pedantic -g
-LINKER_FLAGS = -g -lsfml-graphics -lsfml-window -lsfml-system
+FLAGS = -Wall -pedantic
+LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJ_PATH = obj/
 SRC_PATH = src/
